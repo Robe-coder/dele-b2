@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dele-b2-v1';
+const CACHE_NAME = 'dele-b2-v2';
 const PRECACHE_URLS = [
   './',
   './index.html',

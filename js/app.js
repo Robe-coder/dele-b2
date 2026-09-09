@@ -33,6 +33,28 @@ function wordCount(text) {
   return t.split(/\s+/).length;
 }
 
+// ===================== Detección de plataforma / instalación =====================
+const UA = navigator.userAgent || '';
+const isIOS = /iphone|ipad|ipod/i.test(UA) && !window.MSStream;
+// Navegadores integrados en apps (WhatsApp, Gmail, Instagram, Facebook...) no completan
+// la instalación aunque muestren el botón: hay que abrir el enlace en Chrome/Safari.
+const isInAppBrowser = /(FBAN|FBAV|Instagram|Line\/|WhatsApp|; wv\))/i.test(UA) ||
+  (/Version\/[\d.]+/.test(UA) && /iPhone|iPad/.test(UA) && !/Safari/.test(UA));
+function isStandaloneMode() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+function installHelpHtml() {
+  const steps = isIOS
+    ? ['Abre este enlace en <strong>Safari</strong> (no en WhatsApp, Gmail u otra app).', 'Toca el icono de compartir 📤 en la barra inferior.', 'Elige "Añadir a pantalla de inicio".', 'Confirma tocando "Añadir".']
+    : ['Abre este enlace en <strong>Chrome</strong> (no en WhatsApp, Gmail u otra app).', 'Toca el menú ⋮ (arriba a la derecha).', 'Elige "Instalar aplicación" o "Añadir a pantalla de inicio".', 'Confirma tocando "Instalar".'];
+  return `
+    <details class="card" id="installHelp">
+      <summary style="cursor:pointer;font-weight:700;list-style:none;">📲 Instalar en el móvil</summary>
+      <ol style="margin:10px 0 0;padding-left:20px;">${steps.map((s) => `<li style="margin-bottom:6px;">${s}</li>`).join('')}</ol>
+      ${isInAppBrowser ? `<p class="quiz-explain" style="margin-top:10px;">⚠️ Parece que has abierto este enlace dentro de otra app. Toca el menú de esa app y elige "Abrir en ${isIOS ? 'Safari' : 'Chrome'}" antes de instalar; si no, el botón de instalar no funcionará.</p>` : ''}
+    </details>`;
+}
+
 // ===================== Racha de estudio =====================
 function touchStreak() {
   const s = getJSON('dele_streak', { lastDate: null, count: 0 });
@@ -218,6 +240,8 @@ function viewHome(app) {
       <a href="#/writing" class="list-item"><div>📝 Escritura</div><span class="chev">›</span></a>
       <a href="#/vocab" class="list-item"><div>🗂️ Vocabulario</div><span class="chev">›</span></a>
     </div>
+
+    ${!isStandaloneMode() ? `<div class="section-title">Instalación</div>${installHelpHtml()}` : ''}
   `;
 }
 
@@ -630,12 +654,32 @@ window.addEventListener('beforeinstallprompt', (e) => {
   if (!isStandalone && !dismissed) $('#installToast').hidden = false;
 });
 $('#btnInstall').addEventListener('click', async () => {
-  $('#installToast').hidden = true;
   if (deferredInstallPrompt) {
-    deferredInstallPrompt.prompt();
-    await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt = null;
+    try {
+      deferredInstallPrompt.prompt();
+      const choice = await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      if (choice && choice.outcome === 'accepted') {
+        $('#installToast').hidden = true;
+        return;
+      }
+      // El usuario canceló el diálogo nativo: seguimos abajo mostrando instrucciones manuales.
+    } catch (err) {
+      deferredInstallPrompt = null;
+      // El navegador (a menudo un navegador integrado en otra app) no completó la instalación:
+      // caemos a las instrucciones manuales en vez de fallar en silencio.
+    }
   }
+  // Sin prompt nativo disponible, o el usuario lo canceló: mostramos la guía manual siempre visible.
+  $('#installToast').hidden = true;
+  navigate('/');
+  setTimeout(() => {
+    const el = document.getElementById('installHelp');
+    if (el) {
+      el.open = true;
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, 60);
 });
 $('#btnDismissInstall').addEventListener('click', () => {
   $('#installToast').hidden = true;
