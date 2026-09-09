@@ -646,12 +646,19 @@ function viewWritingPractice(app, idxStr) {
 
 // ===================== Instalación PWA =====================
 let deferredInstallPrompt = null;
+// Si ya se está ejecutando como app instalada, no volvemos a molestar nunca más.
+if (isStandaloneMode()) setJSON('dele_install_dismissed', true);
+
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredInstallPrompt = e;
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
   const dismissed = getJSON('dele_install_dismissed', false);
-  if (!isStandalone && !dismissed) $('#installToast').hidden = false;
+  if (!isStandaloneMode() && !dismissed) $('#installToast').hidden = false;
+});
+// El navegador confirma que la instalación se completó: no mostrar nunca más el aviso.
+window.addEventListener('appinstalled', () => {
+  setJSON('dele_install_dismissed', true);
+  $('#installToast').hidden = true;
 });
 $('#btnInstall').addEventListener('click', async () => {
   if (deferredInstallPrompt) {

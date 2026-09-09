@@ -183,6 +183,7 @@ textarea.writing-area {
   background: var(--primary); color: #fff; padding: 12px 14px; border-radius: 12px;
   display: flex; align-items: center; gap: 10px; z-index: 30; box-shadow: var(--shadow); font-size: 13px;
 }
+.install-toast[hidden] { display: none; }
 .install-toast button.btn { width: auto; padding: 8px 12px; background: #fff; color: var(--primary); }
 .install-toast .icon-btn { color: #fff; }
 
