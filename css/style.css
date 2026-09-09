@@ -197,3 +197,18 @@ textarea.writing-area {
 .score-hero .big { font-size: 42px; font-weight: 800; color: var(--primary-light); }
 
 a { color: var(--primary-light); }
+
+.motivation-overlay {
+  position: fixed; inset: 0; background: rgba(8, 12, 22, 0.55);
+  display: flex; align-items: center; justify-content: center; z-index: 60; padding: 24px;
+  animation: motivationFadeIn 0.2s ease;
+}
+.motivation-card {
+  background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 18px;
+  padding: 28px 22px 22px; max-width: 340px; width: 100%; text-align: center;
+  box-shadow: var(--shadow); animation: motivationPop 0.25s ease;
+}
+.motivation-emoji { font-size: 36px; margin-bottom: 12px; }
+.motivation-card p { font-size: 16px; line-height: 1.55; margin-bottom: 18px; color: var(--text); }
+@keyframes motivationFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes motivationPop { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }

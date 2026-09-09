@@ -32,6 +32,68 @@ function wordCount(text) {
   if (!t) return 0;
   return t.split(/\s+/).length;
 }
+function pickRandom(arr) {
+  if (!arr || !arr.length) return null;
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// ===================== Mensajes motivacionales =====================
+let lastGreetingIndex = -1;
+function pickGreeting() {
+  const arr = DATA.motivation && DATA.motivation.greetings;
+  if (!arr || !arr.length) return '¡Vamos con el repaso!';
+  let idx = Math.floor(Math.random() * arr.length);
+  if (arr.length > 1 && idx === lastGreetingIndex) idx = (idx + 1) % arr.length;
+  lastGreetingIndex = idx;
+  return arr[idx];
+}
+
+let motivationQueue = [];
+let motivationShowing = false;
+function queueMotivation(text) {
+  if (!text) return;
+  motivationQueue.push(text);
+  if (!motivationShowing) showNextMotivation();
+}
+function showNextMotivation() {
+  if (motivationQueue.length === 0) { motivationShowing = false; return; }
+  motivationShowing = true;
+  const text = motivationQueue.shift();
+  const overlay = document.createElement('div');
+  overlay.className = 'motivation-overlay';
+  overlay.innerHTML = `
+    <div class="motivation-card">
+      <div class="motivation-emoji">✨</div>
+      <p>${escapeHtml(text)}</p>
+      <button class="btn small" id="motivationClose">¡Vale! 😊</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  let closed = false;
+  const close = () => {
+    if (closed) return;
+    closed = true;
+    overlay.remove();
+    showNextMotivation();
+  };
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  overlay.querySelector('#motivationClose').addEventListener('click', close);
+  setTimeout(close, 7000);
+}
+
+function checkWordsMasteredMilestone() {
+  const milestones = DATA.motivation && DATA.motivation.wordsMasteredMilestones;
+  if (!milestones) return;
+  const srs = getSrsState();
+  const masteredCount = Object.values(srs).filter((s) => s.box >= 3).length;
+  const key = String(masteredCount);
+  if (!milestones[key]) return;
+  const seen = getJSON('dele_milestones_seen', {});
+  const seenKey = 'words_' + key;
+  if (seen[seenKey]) return;
+  seen[seenKey] = true;
+  setJSON('dele_milestones_seen', seen);
+  queueMotivation(milestones[key]);
+}
 
 // ===================== Detección de plataforma / instalación =====================
 const UA = navigator.userAgent || '';
@@ -65,6 +127,8 @@ function touchStreak() {
   s.lastDate = today;
   setJSON('dele_streak', s);
   updateStreakBadge();
+  const milestones = DATA.motivation && DATA.motivation.streakMilestones;
+  if (milestones && milestones[String(s.count)]) queueMotivation(milestones[String(s.count)]);
   return s;
 }
 function updateStreakBadge() {
@@ -74,19 +138,21 @@ function updateStreakBadge() {
 }
 
 // ===================== Datos =====================
-const DATA = { vocab: [], vocabFlat: [], grammar: [], reading: [], writing: [] };
+const DATA = { vocab: [], vocabFlat: [], grammar: [], reading: [], writing: [], motivation: null };
 
 async function loadData() {
-  const [vocab, grammar, reading, writing] = await Promise.all([
+  const [vocab, grammar, reading, writing, motivation] = await Promise.all([
     fetch('data/vocab.json').then((r) => r.json()),
     fetch('data/grammar.json').then((r) => r.json()),
     fetch('data/reading.json').then((r) => r.json()),
-    fetch('data/writing.json').then((r) => r.json())
+    fetch('data/writing.json').then((r) => r.json()),
+    fetch('data/motivation.json').then((r) => r.json())
   ]);
   DATA.vocab = vocab;
   DATA.grammar = grammar;
   DATA.reading = reading;
   DATA.writing = writing;
+  DATA.motivation = motivation;
   DATA.vocabFlat = [];
   vocab.forEach((tema, ti) => {
     tema.palabras.forEach((w, wi) => {
@@ -207,8 +273,8 @@ function viewHome(app) {
 
   app.innerHTML = `
     <div class="card">
-      <h2>👋 ¡Vamos con el repaso!</h2>
-      <p>Poco a poco, cada día un poco. Esto es lo que te toca hoy:</p>
+      <h2>${escapeHtml(pickGreeting())}</h2>
+      <p>Esto es lo que te toca hoy:</p>
       <div class="grid-2">
         <div>
           <div class="stat-num">${dueVocab}</div>
@@ -335,6 +401,7 @@ function viewVocabReview(app, themeIndex) {
     const w = queue[idx];
     reviewWord(w.id, knewIt);
     touchStreak();
+    checkWordsMasteredMilestone();
     stats.revisadas++;
     if (knewIt) stats.sabidas++;
     else queue.splice(idx + 3, 0, w); // se repite un poco más adelante en la sesión
@@ -351,6 +418,10 @@ function viewVocabReview(app, themeIndex) {
       </div>
       <a href="#/vocab" class="btn">Volver a vocabulario</a>
     `;
+    if (stats.revisadas > 0) {
+      const msg = pickRandom(DATA.motivation && DATA.motivation.sessionEnd.vocab);
+      queueMotivation(msg);
+    }
   }
 
   if (queue.length === 0) {
@@ -394,6 +465,7 @@ function viewGrammarQuiz(app, catId) {
     intro: cat.explicacion,
     items: cat.items,
     backRoute: '/grammar',
+    kind: 'grammar',
     onFinish: (correct, total) => {
       const stats = getJSON('dele_grammar_stats', {});
       const prevBest = stats[cat.id] ? stats[cat.id].bestPct : 0;
@@ -445,6 +517,7 @@ function viewReadingQuiz(app, idxStr) {
       runQuiz(app, {
         items: text.preguntas,
         backRoute: '/reading',
+        kind: 'reading',
         onFinish: (correct, total) => {
           const scores = getJSON('dele_reading_scores', {});
           const pct = Math.round((correct / total) * 100);
@@ -462,7 +535,7 @@ function viewReadingQuiz(app, idxStr) {
 
 // ===================== Componente de quiz genérico =====================
 function runQuiz(app, opts) {
-  const { items, onFinish, backRoute, retryRoute, intro } = opts;
+  const { items, onFinish, backRoute, retryRoute, intro, kind } = opts;
   let idx = 0;
   let correctCount = 0;
   let answered = false;
@@ -512,6 +585,13 @@ function runQuiz(app, opts) {
   function renderFinish() {
     if (typeof onFinish === 'function') onFinish(correctCount, items.length);
     const pct = Math.round((correctCount / items.length) * 100);
+    if (DATA.motivation && kind) {
+      let pool = null;
+      if (kind === 'grammar') pool = pct >= 75 ? DATA.motivation.sessionEnd.grammarHigh : DATA.motivation.sessionEnd.grammarLow;
+      else if (kind === 'reading') pool = DATA.motivation.sessionEnd.reading;
+      const msg = pickRandom(pool);
+      if (msg) queueMotivation(msg);
+    }
     app.innerHTML = `
       <div class="card score-hero">
         <div class="big">${pct}%</div>
@@ -640,6 +720,8 @@ function viewWritingPractice(app, idxStr) {
     done[i] = { done: true, lastDate: dateStr(), lastWords: wc };
     setJSON('dele_writing_done', done);
     touchStreak();
+    const msg = pickRandom(DATA.motivation && DATA.motivation.sessionEnd.writing);
+    if (msg) queueMotivation(msg);
     navigate('/writing');
   });
 }

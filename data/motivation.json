@@ -1,0 +1,80 @@
+{
+  "greetings": [
+    "¡Hola, Michelle! Daniella lleva 5 minutos sin parar (como siempre 😄), aprovecha este ratito para ti.",
+    "Roberto me ha pedido que te diga que eres una crack. No le digas que te lo he contado.",
+    "Cada palabra de hoy te acerca un poco más a volver a llevar la bata de enfermera. 👩‍⚕️",
+    "10 minutitos de español entre pacientes en la clínica no cuentan como descanso... pero casi.",
+    "Hace casi 3 años llegaste de Filipinas sin apenas hablar español. Mira todo lo que sabes ya.",
+    "Kaya mo yan, Michelle. (Que en difícil-de-pronunciar-para-Roberto significa: tú puedes con esto).",
+    "El B2 no se aprueba solo, pero cada ratito como este suma más de lo que parece.",
+    "¿Un ratito de estudio hoy? Te has ganado un banana cue esta tarde. 🍌",
+    "Daniella cuenta hasta diez en varios idiomas y tiene 5 años. No le puedes quedar mal, mamá políglota.",
+    "Roberto dice que tienes más disciplina que él estudiando. No le digas que te lo he contado.",
+    "Pequeños ratitos, grandes resultados. Aunque sea entre turno y turno en la clínica dental.",
+    "De auxiliar de dentista a enfermera otra vez: el español es el peaje, y tú ya vas por la mitad.",
+    "Ganas de verte otra vez con el uniforme de enfermera. Cada repaso de hoy suma para eso.",
+    "¿Cansada del trabajo? Este repaso es cortito, lo prometo (bueno, casi siempre).",
+    "3 años en España y ya discutes con Roberto en español. Eso ya es nivel C1 de la vida real.",
+    "Daniella es un polvorín que no para ni un segundo. Tú con el español, con calma, pero tampoco pares.",
+    "Un poquito cada día. El examen se acerca y tú también.",
+    "Michelle, futura enfermera bilingüe (trilingüe, si contamos el filipino). Vamos con todo.",
+    "Roberto te ha hecho esta app con mucho cariño (y algún que otro fallo, perdónaselo). Aprovéchala.",
+    "El subjuntivo da miedo hasta a los españoles. No estás sola en esto.",
+    "Un ratito ahora, aunque sean 5 minutos, es mejor que dejarlo para 'luego'. Ya lo sabes."
+  ],
+  "sessionEnd": {
+    "vocab": [
+      "¡Otra tanda de palabras dominadas! A este ritmo vas a hablar mejor que Roberto pronto.",
+      "Vocabulario +1. La bata de enfermera, un poquito más cerca.",
+      "Daniella no te va a poder ganar más al veo-veo en español. 😄",
+      "Esas palabras ya son tuyas para siempre. A por las siguientes cuando puedas.",
+      "Un ratito de vocabulario hoy, un examen menos temido mañana.",
+      "Roberto estaría orgulloso. Bueno, más de lo normal.",
+      "Cada palabra nueva es un ladrillo más para tu homologación. Sigue así.",
+      "¡Bien hecho, Michelle! Te has ganado tu banana cue de la tarde. 🍌"
+    ],
+    "grammarHigh": [
+      "¡Se te está poniendo cara de aprobado! 🎉",
+      "El subjuntivo ya no te asusta tanto, ¿eh, Michelle?",
+      "Esto merece un premio. Esta noche hablamos, Roberto ya sabe de qué. 😏",
+      "¡Vaya nivel! El examinador se va a quedar con la boca abierta.",
+      "Michelle, en serio, esto está muy bien. Sigue así."
+    ],
+    "grammarLow": [
+      "La gramática española es dura hasta para los de aquí (pregúntale a Roberto). Sigue intentándolo.",
+      "Ojo con esta, pero no pasa nada. Cada fallo de hoy es un acierto en el examen.",
+      "El subjuntivo es el enemigo común de todo el que aprende español. Vas bien.",
+      "No es tu día con esta categoría, pero mañana la repasas y ya está. Un pasito más."
+    ],
+    "reading": [
+      "Otro texto más leído y entendido. Esto ya no es examen, ¡es una conversación!",
+      "Te vas a leer los informes en español antes de lo que crees, Michelle.",
+      "Comprensión lectora dominada. A por el siguiente cuando quieras.",
+      "Cada texto que entiendes es un paso más hacia el hospital.",
+      "¡Muy bien! Sigues sumando para el gran día."
+    ],
+    "writing": [
+      "¡Un texto más practicado! Vas a escribir los informes de enfermería sin despeinarte.",
+      "Roberto no escribe tan ordenado como tú, y eso que es español. 😜",
+      "Cada texto que escribes te prepara mejor para el examen real.",
+      "¡Bien hecho! La expresión escrita ya no te da tanto respeto.",
+      "Practicar esto es lo que más cuesta y lo que más se nota. Sigue así, Michelle."
+    ]
+  },
+  "streakMilestones": {
+    "3": "¡3 días seguidos, Michelle! Ya tienes más constancia que las resoluciones de año nuevo de Roberto.",
+    "7": "¡Una semana entera! Daniella debería hacerte un dibujo de medalla.",
+    "14": "¡Dos semanas de racha! El DELE está temblando.",
+    "21": "21 días seguidos. Dicen que así se forma un hábito — el español ya es parte de ti.",
+    "30": "¡Un mes entero repasando cada día! Esto ya no es estudiar, es un estilo de vida. Esta noche toca banana cue y... ya sabes, monkey monkey. 😏🍌",
+    "50": "50 días. En serio, Michelle, esto es una barbaridad de constancia.",
+    "100": "100 días seguidos. Esto hay que celebrarlo por todo lo alto. Roberto, ya sabes lo que toca."
+  },
+  "wordsMasteredMilestones": {
+    "10": "10 palabras dominadas. El vocabulario del B2 empieza a ser tuyo.",
+    "25": "25 palabras dominadas. Vas rapidísima, Michelle.",
+    "50": "50 palabras dominadas. ¡La mitad del vocabulario ya es tuyo!",
+    "80": "80 palabras dominadas. Esto ya es imparable.",
+    "120": "¡Las 120 palabras dominadas! Vocabulario completo. Esta noche se celebra con banana cue (y algo más). 😏🍌"
+  }
+}
