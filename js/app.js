@@ -37,6 +37,71 @@ function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+// ===================== Corrección de escritura con IA externa =====================
+function buildCorrectionPrompt(p, text) {
+  return `Eres un examinador certificado de DELE B2 (Instituto Cervantes). Corrige el siguiente texto de Expresión Escrita según los criterios oficiales del DELE B2:
+1. Adecuación al contexto (tipo de texto, registro, destinatario)
+2. Coherencia y cohesión (organización de las ideas, uso de conectores)
+3. Corrección gramatical y ortográfica
+4. Riqueza y variedad léxica
+
+TAREA: ${p.enunciado}
+Tipo de texto: ${p.tipo}
+Extensión requerida: ${p.palabrasMin}-${p.palabrasMax} palabras
+
+TEXTO DEL ALUMNO:
+"${text}"
+
+Por favor, dame:
+- Una valoración aproximada de si este texto alcanzaría el nivel B2 (sí / con matices / no todavía) y por qué, en 2-3 frases.
+- Los 3-5 errores más importantes a corregir (cita la frase original, la corrección propuesta y una breve explicación).
+- 2-3 sugerencias concretas para enriquecer el vocabulario o mejorar la cohesión.
+- Un comentario final breve y motivador.
+
+Sé claro, constructivo y concreto. No hace falta que reescribas el texto entero, céntrate en lo más importante.`;
+}
+
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (err) {
+    // Alternativa para navegadores sin acceso al portapapeles moderno
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      return true;
+    } catch (err2) {
+      return false;
+    }
+  }
+}
+
+function showCorrectionHelp() {
+  const overlay = document.createElement('div');
+  overlay.className = 'motivation-overlay';
+  overlay.innerHTML = `
+    <div class="motivation-card" style="max-width:360px;">
+      <div class="motivation-emoji">🤖</div>
+      <p><strong>¡Copiado!</strong> Pégalo en tu IA favorita (Claude, ChatGPT...) y te dará la corrección al momento.</p>
+      <div class="grid-2" style="margin-bottom:10px;">
+        <a href="https://claude.ai" target="_blank" rel="noopener" class="btn small">Abrir Claude</a>
+        <a href="https://chatgpt.com" target="_blank" rel="noopener" class="btn small secondary">Abrir ChatGPT</a>
+      </div>
+      <button class="btn small secondary" id="correctionClose">Cerrar</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  const close = () => overlay.remove();
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  overlay.querySelector('#correctionClose').addEventListener('click', close);
+}
+
 // ===================== Mensajes motivacionales =====================
 let lastGreetingIndex = -1;
 function pickGreeting() {
@@ -671,6 +736,13 @@ function viewWritingPractice(app, idxStr) {
       <div class="wordcount" id="wordcount">0 palabras</div>
     </div>
 
+    <div class="card">
+      <div class="stat-row"><strong>🤖 Corrección con IA</strong></div>
+      <p class="meta" style="color:var(--text-muted);margin-top:4px;">Copia tu texto junto con los criterios oficiales del DELE B2 para pegarlo en tu IA favorita (Claude, ChatGPT...) y recibir correcciones y feedback al momento.</p>
+      <button class="btn secondary small" id="btnCorrect">Corregir con IA</button>
+      <p class="meta" id="correctWarning" style="color:var(--bad);margin-top:6px;"></p>
+    </div>
+
     <details class="card" open>
       <summary style="cursor:pointer;font-weight:700;list-style:none;">✅ Autoevaluación</summary>
       <div id="checklist" style="margin-top:8px;">
@@ -696,6 +768,18 @@ function viewWritingPractice(app, idxStr) {
     const el = $('#wordcount');
     el.textContent = `${wc} palabras`;
     el.className = 'wordcount ' + (wc >= p.palabrasMin && wc <= p.palabrasMax * 1.15 ? 'ok' : wc > 0 ? 'warn' : '');
+  });
+
+  $('#btnCorrect').addEventListener('click', async () => {
+    const text = $('#writingArea').value.trim();
+    if (wordCount(text) < 15) {
+      $('#correctWarning').textContent = 'Escribe un poco más antes de pedir la corrección.';
+      return;
+    }
+    $('#correctWarning').textContent = '';
+    const promptText = buildCorrectionPrompt(p, text);
+    await copyToClipboard(promptText);
+    showCorrectionHelp();
   });
 
   $('#btnTimer').addEventListener('click', () => {
