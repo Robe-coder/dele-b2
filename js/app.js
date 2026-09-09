@@ -702,5 +702,13 @@ window.addEventListener('hashchange', render);
   render();
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').catch(() => {});
+    // Cuando entra en juego una versión nueva del service worker, recargamos una vez
+    // automáticamente para que la actualización se vea sin que haya que recargar a mano.
+    let reloadedForUpdate = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (reloadedForUpdate) return;
+      reloadedForUpdate = true;
+      location.reload();
+    });
   }
 })();

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dele-b2-v3';
+const CACHE_NAME = 'dele-b2-v4';
 const PRECACHE_URLS = [
   './',
   './index.html',
@@ -31,22 +31,21 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Estrategia: cache first, con actualización en segundo plano (stale-while-revalidate)
+// Estrategia: network first. Con conexión, siempre coge la versión más reciente del
+// servidor (y la guarda en caché); solo usa lo guardado si no hay conexión. Así una
+// actualización nunca se queda "atascada" sirviendo contenido antiguo.
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const fetchPromise = fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return networkResponse;
-        })
-        .catch(() => cached);
-      return cached || fetchPromise;
-    })
+    fetch(event.request, { cache: 'no-store' })
+      .then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const clone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
+        return networkResponse;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
