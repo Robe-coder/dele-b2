@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DELE B2 Repaso</title>
+<meta name="description" content="App de repaso para el examen DELE B2: vocabulario, gramática, lectura y expresión escrita.">
+<meta name="theme-color" content="#1e3a5f">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DELE B2">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button id="btnBack" class="icon-btn" hidden aria-label="Volver">←</button>
+      <h1 id="pageTitle">DELE B2</h1>
+      <div class="streak" id="streakBadge" title="Racha de estudio">🔥 0</div>
+    </div>
+  </header>
+
+  <main id="app"></main>
+
+  <nav class="tabbar" id="tabbar">
+    <a href="#/" class="tab-item" data-route="/">
+      <span class="tab-icon">🏠</span><span>Inicio</span>
+    </a>
+    <a href="#/vocab" class="tab-item" data-route="/vocab">
+      <span class="tab-icon">🗂️</span><span>Vocab.</span>
+    </a>
+    <a href="#/grammar" class="tab-item" data-route="/grammar">
+      <span class="tab-icon">✏️</span><span>Gramática</span>
+    </a>
+    <a href="#/reading" class="tab-item" data-route="/reading">
+      <span class="tab-icon">📖</span><span>Lectura</span>
+    </a>
+    <a href="#/writing" class="tab-item" data-route="/writing">
+      <span class="tab-icon">📝</span><span>Escritura</span>
+    </a>
+  </nav>
+
+  <div id="installToast" class="install-toast" hidden>
+    <span>Instala la app en tu móvil para usarla sin conexión.</span>
+    <button id="btnInstall">Instalar</button>
+    <button id="btnDismissInstall" class="icon-btn" aria-label="Cerrar">✕</button>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

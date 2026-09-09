@@ -1,0 +1,122 @@
+[
+  {
+    "id": "subj-sustantivas",
+    "titulo": "Subjuntivo en oraciones sustantivas",
+    "explicacion": "Se usa subjuntivo tras verbos y expresiones de deseo, duda, sentimiento o valoración cuando hay cambio de sujeto (esperar que, dudar que, es una pena que...). Con expresiones de certeza (es evidente que, está claro que) se usa indicativo.",
+    "items": [
+      { "pregunta": "Espero que (tú) ___ pronto.", "opciones": ["vengas", "vienes", "vendrás", "has venido"], "correcta": 0, "explicacion": "\"Esperar que\" expresa deseo y exige subjuntivo." },
+      { "pregunta": "Es evidente que él ___ razón.", "opciones": ["tiene", "tenga", "tuviera", "tenía"], "correcta": 0, "explicacion": "\"Es evidente que\" indica certeza, por lo que se usa indicativo." },
+      { "pregunta": "No creo que ___ tiempo para terminarlo.", "opciones": ["hay", "haya", "habrá", "había"], "correcta": 1, "explicacion": "\"No creer que\" expresa duda y lleva subjuntivo." },
+      { "pregunta": "Dudo que ellos ___ la verdad.", "opciones": ["dicen", "digan", "dirán", "decían"], "correcta": 1, "explicacion": "\"Dudar que\" siempre va seguido de subjuntivo." },
+      { "pregunta": "Me alegra que (vosotros) ___ aprobado el examen.", "opciones": ["habéis", "hayáis", "habíais", "habréis"], "correcta": 1, "explicacion": "Verbos de sentimiento como \"alegrarse de que\" exigen subjuntivo (aquí, pretérito perfecto de subjuntivo)." },
+      { "pregunta": "Quizás ___ (nosotros) tiempo para verlo después.", "opciones": ["tenemos", "tengamos", "tendremos", "teníamos"], "correcta": 1, "explicacion": "\"Quizás\" y \"tal vez\" suelen llevar subjuntivo cuando expresan duda o poca seguridad." },
+      { "pregunta": "Te sugiero que ___ (tú) un poco más antes de decidir.", "opciones": ["piensas", "pienses", "pensarás", "pensaste"], "correcta": 1, "explicacion": "\"Sugerir que\" es un verbo de influencia y lleva subjuntivo." },
+      { "pregunta": "Es una pena que no ___ (él) venir a la fiesta.", "opciones": ["puede", "pueda", "podrá", "pudo"], "correcta": 1, "explicacion": "Las expresiones de valoración (\"es una pena que\") van seguidas de subjuntivo." }
+    ]
+  },
+  {
+    "id": "subj-relativas-adverbiales",
+    "titulo": "Subjuntivo en relativas y adverbiales",
+    "explicacion": "Se usa subjuntivo con conectores temporales que se refieren al futuro (cuando, en cuanto...), con \"para que\", y con oraciones de relativo cuyo antecedente es desconocido, indefinido o inexistente. Se usa indicativo cuando el antecedente es conocido o se habla de hechos habituales/pasados.",
+    "items": [
+      { "pregunta": "Cuando ___ (tú) a Madrid, llámame.", "opciones": ["llegas", "llegues", "llegarás", "llegabas"], "correcta": 1, "explicacion": "\"Cuando\" referido a una acción futura no realizada lleva subjuntivo." },
+      { "pregunta": "Aunque ___ mal tiempo, saldremos a pasear.", "opciones": ["hace", "haga", "hará", "hizo"], "correcta": 1, "explicacion": "\"Aunque\" con valor concesivo hipotético (no se sabe si hará mal tiempo, y da igual) lleva subjuntivo." },
+      { "pregunta": "Busco un piso que ___ terraza.", "opciones": ["tiene", "tenga", "tendrá", "tuvo"], "correcta": 1, "explicacion": "El antecedente \"un piso\" es indefinido/no específico, por lo que se usa subjuntivo." },
+      { "pregunta": "Vive en un piso que ___ terraza.", "opciones": ["tiene", "tenga", "tuviera", "tenía"], "correcta": 0, "explicacion": "Aquí el piso es concreto y conocido por el hablante, así que se usa indicativo." },
+      { "pregunta": "Te lo explicaré otra vez para que lo ___ (tú) entender.", "opciones": ["puedes", "puedas", "podrás", "pudiste"], "correcta": 1, "explicacion": "\"Para que\" expresa finalidad y siempre va seguido de subjuntivo." },
+      { "pregunta": "En cuanto ___ (yo) noticias, te aviso.", "opciones": ["tengo", "tenga", "tendré", "tenía"], "correcta": 1, "explicacion": "\"En cuanto\" referido al futuro requiere subjuntivo." },
+      { "pregunta": "No hay nadie que ___ la respuesta.", "opciones": ["sabe", "sepa", "sabrá", "supo"], "correcta": 1, "explicacion": "\"Nadie que\" tiene antecedente inexistente, por lo que se usa subjuntivo." },
+      { "pregunta": "Siempre que ___ (yo) puedo, la visito.", "opciones": ["puedo", "pueda", "podré", "pudiera"], "correcta": 0, "explicacion": "\"Siempre que\" con valor de hábito repetido lleva indicativo." }
+    ]
+  },
+  {
+    "id": "estilo-indirecto",
+    "titulo": "Estilo indirecto",
+    "explicacion": "Al pasar del estilo directo al indirecto, los tiempos verbales retroceden: presente → imperfecto, pretérito perfecto → pluscuamperfecto, futuro → condicional, imperativo → imperfecto de subjuntivo. También cambian los marcadores temporales (mañana → al día siguiente, ayer → el día anterior...).",
+    "items": [
+      { "pregunta": "\"Voy a llegar tarde\", dijo María. → María dijo que ___ a llegar tarde.", "opciones": ["va", "iba", "fue", "iría"], "correcta": 1, "explicacion": "El presente (\"voy\") pasa a imperfecto (\"iba\") en estilo indirecto." },
+      { "pregunta": "\"He terminado el informe\", dijo Pedro. → Pedro dijo que ___ el informe.", "opciones": ["ha terminado", "había terminado", "terminó", "terminaría"], "correcta": 1, "explicacion": "El pretérito perfecto pasa a pluscuamperfecto en estilo indirecto." },
+      { "pregunta": "\"Vendré mañana\", dijo Ana. → Ana dijo que ___ al día siguiente.", "opciones": ["venía", "vendría", "vino", "viene"], "correcta": 1, "explicacion": "El futuro simple pasa a condicional simple en estilo indirecto." },
+      { "pregunta": "\"¿Dónde vives?\", me preguntó. → Me preguntó dónde ___.", "opciones": ["vivo", "vivía", "viví", "viviría"], "correcta": 1, "explicacion": "El presente pasa a imperfecto también en preguntas indirectas." },
+      { "pregunta": "\"Cierra la puerta\", me dijo. → Me dijo que ___ la puerta.", "opciones": ["cierre", "cerrara", "cerraría", "cerró"], "correcta": 1, "explicacion": "El imperativo se transforma en imperfecto de subjuntivo en estilo indirecto." },
+      { "pregunta": "\"Estoy cansado\", dijo Luis. → Luis dijo que ___ cansado.", "opciones": ["está", "estaba", "estuvo", "estará"], "correcta": 1, "explicacion": "El presente pasa a imperfecto de indicativo." },
+      { "pregunta": "\"Te veo mañana\" (dicho ayer). → Dijo que me vería ___.", "opciones": ["mañana", "al día siguiente", "ayer", "hoy"], "correcta": 1, "explicacion": "El marcador \"mañana\" cambia a \"al día siguiente\" al narrar desde otro momento." },
+      { "pregunta": "\"No he visto esa película\", dijo Carla. → Carla dijo que no ___ esa película.", "opciones": ["ha visto", "había visto", "vio", "vería"], "correcta": 1, "explicacion": "El pretérito perfecto retrocede a pluscuamperfecto." }
+    ]
+  },
+  {
+    "id": "condicionales",
+    "titulo": "Oraciones condicionales",
+    "explicacion": "Tipo 1 (real/futuro): Si + presente, futuro. Tipo 2 (hipotético presente): Si + imperfecto de subjuntivo, condicional simple. Tipo 3 (irreal pasado): Si + pluscuamperfecto de subjuntivo, condicional compuesto.",
+    "items": [
+      { "pregunta": "Si ___ (yo) tiempo, iría contigo.", "opciones": ["tengo", "tuviera", "tendré", "he tenido"], "correcta": 1, "explicacion": "Condicional tipo 2: si + imperfecto de subjuntivo, condicional simple." },
+      { "pregunta": "Si tengo tiempo, ___ contigo.", "opciones": ["iré", "iría", "fuera", "iba"], "correcta": 0, "explicacion": "Condicional tipo 1 (real/futuro): si + presente, futuro simple." },
+      { "pregunta": "Si hubiera estudiado más, ___ el examen.", "opciones": ["habría aprobado", "aprobaría", "aprobara", "aprobó"], "correcta": 0, "explicacion": "Condicional tipo 3: si + pluscuamperfecto de subjuntivo, condicional compuesto." },
+      { "pregunta": "Si fueras más paciente, ___ mejor la situación.", "opciones": ["entiendes", "entenderás", "entenderías", "entendieras"], "correcta": 2, "explicacion": "Condicional tipo 2: si + imperfecto de subjuntivo, condicional simple." },
+      { "pregunta": "De haber sabido la verdad, no ___ así.", "opciones": ["actuaría", "actuara", "habría actuado", "actuó"], "correcta": 2, "explicacion": "\"De + infinitivo compuesto\" equivale a una condicional tipo 3, con condicional compuesto en la consecuencia." },
+      { "pregunta": "Si ___ mañana, no saldremos.", "opciones": ["llueve", "lloviera", "llovería", "llovió"], "correcta": 0, "explicacion": "Condicional tipo 1: si + presente de indicativo." },
+      { "pregunta": "Como no ___ (tú) más, suspenderás el examen.", "opciones": ["estudias", "estudies", "estudiarás", "estudiaste"], "correcta": 1, "explicacion": "\"Como\" con valor condicional de advertencia va seguido de subjuntivo." },
+      { "pregunta": "Si yo ___ tú, no lo haría.", "opciones": ["soy", "sería", "fuera", "fui"], "correcta": 2, "explicacion": "Condicional tipo 2: si + imperfecto de subjuntivo (\"si yo fuera tú\" es una fórmula muy frecuente para dar consejos)." }
+    ]
+  },
+  {
+    "id": "conectores",
+    "titulo": "Conectores del discurso",
+    "explicacion": "Los conectores organizan las ideas: de consecuencia (por lo tanto, en consecuencia), de contraste (sin embargo, en cambio), de adición (además, asimismo), de reformulación (es decir), de conclusión (en definitiva) y de concesión (a pesar de).",
+    "items": [
+      { "pregunta": "No tenía dinero; ___, decidió pedir un préstamo.", "opciones": ["por lo tanto", "sin embargo", "es decir", "en cambio"], "correcta": 0, "explicacion": "Se expresa una consecuencia lógica del hecho anterior." },
+      { "pregunta": "Es una persona muy trabajadora; ___, a veces le falta paciencia.", "opciones": ["sin embargo", "además", "por consiguiente", "es decir"], "correcta": 0, "explicacion": "Se introduce un contraste con lo dicho antes." },
+      { "pregunta": "___, hay que tener en cuenta el factor económico.", "opciones": ["Asimismo", "Por el contrario", "En resumen", "Es decir"], "correcta": 0, "explicacion": "\"Asimismo\" añade un nuevo aspecto en la misma línea que lo anterior." },
+      { "pregunta": "Llegó tarde; ___, se perdió el principio de la reunión.", "opciones": ["en consecuencia", "no obstante", "por otro lado", "esto es"], "correcta": 0, "explicacion": "Indica la consecuencia directa del hecho anterior." },
+      { "pregunta": "___, el proyecto ha sido todo un éxito.", "opciones": ["En definitiva", "Por el contrario", "Es decir", "Además"], "correcta": 0, "explicacion": "\"En definitiva\" introduce una conclusión general." },
+      { "pregunta": "Unos prefieren vivir en la ciudad; ___, otros eligen el campo.", "opciones": ["en cambio", "por lo tanto", "es decir", "asimismo"], "correcta": 0, "explicacion": "\"En cambio\" contrasta dos alternativas opuestas." },
+      { "pregunta": "El proyecto fracasó, ___, no cumplió ninguno de sus objetivos.", "opciones": ["es decir", "sin embargo", "por lo tanto", "además"], "correcta": 0, "explicacion": "\"Es decir\" reformula o explica con otras palabras lo dicho antes." },
+      { "pregunta": "___ el mal tiempo, decidieron continuar con la excursión.", "opciones": ["A pesar de", "Debido a", "Gracias a", "Puesto que"], "correcta": 0, "explicacion": "\"A pesar de\" introduce una concesión: la excursión continúa pese al obstáculo." }
+    ]
+  },
+  {
+    "id": "por-para",
+    "titulo": "Por y Para",
+    "explicacion": "\"Para\" se usa para finalidad, destinatario y plazos límite. \"Por\" se usa para causa/motivo, movimiento a través de un lugar e intercambio.",
+    "items": [
+      { "pregunta": "Este regalo es ___ ti.", "opciones": ["por", "para"], "correcta": 1, "explicacion": "\"Para\" indica el destinatario." },
+      { "pregunta": "Lo castigaron ___ llegar tarde.", "opciones": ["por", "para"], "correcta": 0, "explicacion": "\"Por\" indica la causa o el motivo." },
+      { "pregunta": "Estudia mucho ___ aprobar el examen.", "opciones": ["por", "para"], "correcta": 1, "explicacion": "\"Para\" indica la finalidad de la acción." },
+      { "pregunta": "Pasamos ___ el parque de camino a casa.", "opciones": ["por", "para"], "correcta": 0, "explicacion": "\"Por\" indica movimiento a través de un lugar." },
+      { "pregunta": "El informe debe estar listo ___ el viernes.", "opciones": ["por", "para"], "correcta": 1, "explicacion": "\"Para\" indica un plazo límite." },
+      { "pregunta": "Te cambio mi bici ___ tu monopatín.", "opciones": ["por", "para"], "correcta": 0, "explicacion": "\"Por\" indica intercambio." },
+      { "pregunta": "Trabaja ___ una multinacional.", "opciones": ["por", "para"], "correcta": 1, "explicacion": "\"Para\" indica la empresa/entidad de la que se es empleado." },
+      { "pregunta": "Gracias ___ tu ayuda.", "opciones": ["por", "para"], "correcta": 0, "explicacion": "\"Por\" indica el motivo del agradecimiento." }
+    ]
+  },
+  {
+    "id": "ser-estar",
+    "titulo": "Ser y Estar (usos avanzados)",
+    "explicacion": "\"Ser\" se usa para características esenciales, profesión, ubicación de eventos y normas impersonales. \"Estar\" se usa para ubicación de objetos y personas, estados y cambios, resultados de una acción y valoraciones subjetivas del momento.",
+    "items": [
+      { "pregunta": "La reunión ___ en la sala 3.", "opciones": ["es", "está"], "correcta": 0, "explicacion": "Para indicar dónde tiene lugar un evento se usa \"ser\"." },
+      { "pregunta": "El edificio ___ en el centro.", "opciones": ["es", "está"], "correcta": 1, "explicacion": "Para la ubicación física de un objeto o lugar se usa \"estar\"." },
+      { "pregunta": "Juan ___ muy delgado últimamente.", "opciones": ["es", "está"], "correcta": 1, "explicacion": "\"Estar\" señala un cambio de estado respecto a lo habitual." },
+      { "pregunta": "Esta fruta ___ verde todavía; espera unos días.", "opciones": ["es", "está"], "correcta": 1, "explicacion": "\"Estar verde\" indica que aún no está madura (estado), no el color (característica)." },
+      { "pregunta": "Mi hermana ___ profesora de instituto.", "opciones": ["es", "está"], "correcta": 0, "explicacion": "La profesión se expresa con \"ser\"." },
+      { "pregunta": "___ prohibido fumar aquí.", "opciones": ["Es", "Está"], "correcta": 0, "explicacion": "Las normas impersonales usan \"ser\" (\"es prohibido/obligatorio/necesario\")." },
+      { "pregunta": "La puerta ___ abierta; ciérrala, por favor.", "opciones": ["es", "está"], "correcta": 1, "explicacion": "\"Estar\" expresa el resultado de una acción previa (alguien la abrió)." },
+      { "pregunta": "¡Qué difícil ___ este examen!", "opciones": ["es", "está"], "correcta": 1, "explicacion": "\"Estar\" puede usarse para una valoración subjetiva sobre la experiencia en ese momento." }
+    ]
+  },
+  {
+    "id": "perifrasis",
+    "titulo": "Perífrasis verbales",
+    "explicacion": "Combinaciones de verbo conjugado + (preposición) + infinitivo/gerundio/participio que expresan matices como duración (llevar + gerundio), acción reciente (acabar de + infinitivo), repetición (volver a + infinitivo), obligación (tener que + infinitivo) o probabilidad (deber de + infinitivo).",
+    "items": [
+      { "pregunta": "Llevo dos años ___ español.", "opciones": ["estudiando", "estudiado", "estudiar", "estudia"], "correcta": 0, "explicacion": "\"Llevar + gerundio\" expresa la duración de una acción que continúa." },
+      { "pregunta": "Acabo de ___ a casa.", "opciones": ["llegando", "llegado", "llegar", "llego"], "correcta": 2, "explicacion": "\"Acabar de + infinitivo\" expresa una acción recién terminada." },
+      { "pregunta": "Vuelve a ___; menudo verano llevamos.", "opciones": ["llover", "lloviendo", "llovido", "llueve"], "correcta": 0, "explicacion": "\"Volver a + infinitivo\" expresa repetición de la acción." },
+      { "pregunta": "Tienes que ___ el trabajo hoy mismo.", "opciones": ["terminando", "terminado", "terminar", "terminas"], "correcta": 2, "explicacion": "\"Tener que + infinitivo\" expresa obligación." },
+      { "pregunta": "Se echó a ___ sin ningún motivo.", "opciones": ["reír", "riendo", "reído", "ríe"], "correcta": 0, "explicacion": "\"Echarse a + infinitivo\" expresa el inicio brusco de una acción." },
+      { "pregunta": "Debe de ___ las tres, ya tengo hambre.", "opciones": ["ser", "siendo", "sido", "es"], "correcta": 0, "explicacion": "\"Deber de + infinitivo\" expresa probabilidad o suposición." },
+      { "pregunta": "Sigo ___ trabajo desde hace meses.", "opciones": ["buscando", "buscado", "buscar", "busco"], "correcta": 0, "explicacion": "\"Seguir + gerundio\" expresa la continuidad de una acción." },
+      { "pregunta": "Al final terminó ___ el puesto que le ofrecieron.", "opciones": ["aceptando", "aceptado", "aceptar", "acepta"], "correcta": 0, "explicacion": "\"Terminar/acabar + gerundio\" expresa el resultado final de un proceso." }
+    ]
+  }
+]

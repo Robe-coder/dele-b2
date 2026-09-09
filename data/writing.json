@@ -1,0 +1,106 @@
+[
+  {
+    "tarea": 1,
+    "tipo": "Carta o correo formal",
+    "titulo": "Reclamación a una empresa",
+    "enunciado": "Compraste un producto por internet hace tres semanas y ha llegado defectuoso. Escribe un correo formal a la empresa en el que: te presentes y expliques qué compraste y cuándo, describas el problema con detalle, expliques qué solución esperas (reembolso, cambio, etc.) y te despidas de forma adecuada.",
+    "palabrasMin": 150,
+    "palabrasMax": 180,
+    "tiempoMin": 40,
+    "estructura": [
+      "Saludo formal (Estimados señores / Estimado/a Sr./Sra. X)",
+      "Introducción: quién eres y motivo del correo",
+      "Desarrollo: explica el problema con detalle y orden cronológico",
+      "Petición clara de solución",
+      "Despedida formal (Atentamente / Un cordial saludo)"
+    ],
+    "conectores": ["Le escribo para...", "Por la presente...", "En primer lugar...", "Asimismo...", "Por consiguiente...", "Quedo a la espera de su respuesta...", "Sin otro particular, le saluda atentamente..."],
+    "checklist": [
+      "¿Has usado un saludo y una despedida formales, coherentes entre sí?",
+      "¿Usas 'usted' de forma consistente en todo el texto (no mezclas con 'tú')?",
+      "¿Explicas el problema con datos concretos (fecha, producto, pedido)?",
+      "¿Queda clara la solución que pides?",
+      "¿Has usado al menos 3-4 conectores distintos?",
+      "¿Está el texto entre 150 y 180 palabras?",
+      "¿Has revisado la ortografía y la concordancia verbal?"
+    ]
+  },
+  {
+    "tarea": 1,
+    "tipo": "Correo informal",
+    "titulo": "Contar una experiencia a un amigo",
+    "enunciado": "Un amigo o amiga te ha escrito preguntándote qué tal te va la vida últimamente. Escríbele un correo en el que le cuentes un cambio importante que has vivido recientemente (mudanza, nuevo trabajo, un viaje...), cómo te sientes al respecto y le hagas alguna pregunta sobre su vida.",
+    "palabrasMin": 150,
+    "palabrasMax": 180,
+    "tiempoMin": 40,
+    "estructura": [
+      "Saludo informal (¡Hola X! / Querido/a X)",
+      "Referencia a su mensaje / cómo estás",
+      "Desarrollo: cuenta el cambio o la novedad con detalle y sentimientos",
+      "Pregunta o interés por la otra persona",
+      "Despedida informal (Un abrazo / Besos / Hasta pronto)"
+    ],
+    "conectores": ["Qué alegría saber de ti...", "Pues resulta que...", "Al principio... pero luego...", "La verdad es que...", "Por cierto...", "Bueno, cuéntame tú...", "Un abrazo fuerte"],
+    "checklist": [
+      "¿El registro es coherente e informal en todo el texto (tuteo)?",
+      "¿Cuentas el cambio con detalles concretos y no solo en general?",
+      "¿Expresas cómo te sientes usando vocabulario variado (no solo 'bien' o 'mal')?",
+      "¿Incluyes al menos una pregunta dirigida a tu amigo/a?",
+      "¿Está el texto entre 150 y 180 palabras?",
+      "¿Usas conectores de coloquiales de forma natural?",
+      "¿Has revisado tiempos verbales del pasado (pretérito, imperfecto)?"
+    ]
+  },
+  {
+    "tarea": 2,
+    "tipo": "Texto argumentativo",
+    "titulo": "¿Deberían prohibirse las redes sociales a los menores de 16 años?",
+    "enunciado": "Cada vez más países debaten limitar el acceso de los adolescentes a las redes sociales. Escribe un texto argumentativo en el que expongas tu opinión sobre esta medida, aportando al menos dos argumentos a favor o en contra, y una conclusión clara.",
+    "palabrasMin": 150,
+    "palabrasMax": 180,
+    "tiempoMin": 40,
+    "estructura": [
+      "Introducción: presenta el tema y tu postura general",
+      "Argumento 1 con un ejemplo o justificación",
+      "Argumento 2 con un ejemplo o justificación",
+      "Posible contraargumento y por qué no cambia tu opinión (opcional pero valorado)",
+      "Conclusión que resume tu postura"
+    ],
+    "conectores": ["En mi opinión...", "Por un lado... por otro lado...", "Un argumento a favor de esto es que...", "Además...", "No obstante...", "Cabe destacar que...", "En conclusión / En definitiva..."],
+    "checklist": [
+      "¿Presentas tu postura claramente desde el principio?",
+      "¿Incluyes al menos dos argumentos bien desarrollados (no solo mencionados)?",
+      "¿Usas conectores de opinión y contraste variados?",
+      "¿Hay una conclusión que cierra el texto de forma coherente?",
+      "¿Evitas repetir siempre las mismas palabras (sinónimos)?",
+      "¿Está el texto entre 150 y 180 palabras?",
+      "¿Usas el subjuntivo donde corresponde (es importante que, no creo que...)?"
+    ]
+  },
+  {
+    "tarea": 2,
+    "tipo": "Texto narrativo",
+    "titulo": "Un cambio inesperado",
+    "enunciado": "Escribe una breve narración sobre una vez en la que un cambio inesperado (de planes, de trabajo, de ciudad...) terminó siendo positivo, aunque al principio no lo pareciera. Incluye el contexto, qué ocurrió y cómo te sentiste, y una reflexión final.",
+    "palabrasMin": 150,
+    "palabrasMax": 180,
+    "tiempoMin": 40,
+    "estructura": [
+      "Situación inicial (contexto, dónde y cuándo)",
+      "El hecho inesperado que rompe la rutina",
+      "Cómo reaccionaste y qué sentiste en ese momento",
+      "Cómo se resolvió la situación",
+      "Reflexión final sobre lo aprendido"
+    ],
+    "conectores": ["Todo empezó cuando...", "De repente...", "Sin esperarlo...", "Al principio pensé que...", "Con el tiempo...", "Al final...", "Mirando atrás, creo que..."],
+    "checklist": [
+      "¿Diferencias claramente el pretérito indefinido (acciones puntuales) del imperfecto (descripción/contexto)?",
+      "¿La historia tiene una estructura clara: inicio, nudo y desenlace?",
+      "¿Incluyes sentimientos y no solo hechos?",
+      "¿Hay una reflexión final que dé sentido a la anécdota?",
+      "¿Usas marcadores temporales variados (al principio, de repente, al final...)?",
+      "¿Está el texto entre 150 y 180 palabras?",
+      "¿Has revisado la concordancia entre sujeto y verbo en los distintos tiempos?"
+    ]
+  }
+]
