@@ -286,17 +286,18 @@ function asReviewItem(m) {
 }
 
 // ===================== Datos =====================
-const DATA = { vocab: [], vocabFlat: [], grammar: [], reading: [], writing: [], motivation: null, tenses: [], verbs: [] };
+const DATA = { vocab: [], vocabFlat: [], grammar: [], reading: [], writing: [], motivation: null, tenses: [], verbs: [], oral: [] };
 
 async function loadData() {
-  const [vocab, grammar, reading, writing, motivation, tenses, verbs] = await Promise.all([
+  const [vocab, grammar, reading, writing, motivation, tenses, verbs, oral] = await Promise.all([
     fetch('data/vocab.json').then((r) => r.json()),
     fetch('data/grammar.json').then((r) => r.json()),
     fetch('data/reading.json').then((r) => r.json()),
     fetch('data/writing.json').then((r) => r.json()),
     fetch('data/motivation.json').then((r) => r.json()),
     fetch('data/tenses.json').then((r) => r.json()),
-    fetch('data/verbs.json').then((r) => r.json())
+    fetch('data/verbs.json').then((r) => r.json()),
+    fetch('data/oral.json').then((r) => r.json())
   ]);
   DATA.vocab = vocab;
   DATA.grammar = grammar;
@@ -305,6 +306,7 @@ async function loadData() {
   DATA.motivation = motivation;
   DATA.tenses = tenses;
   DATA.verbs = verbs;
+  DATA.oral = oral;
   DATA.vocabFlat = [];
   vocab.forEach((tema, ti) => {
     tema.palabras.forEach((w, wi) => {
@@ -490,6 +492,10 @@ async function render() {
     if (segs[1]) return viewRepasoTipo(app, segs[1]);
     return viewRepaso(app);
   }
+  if (segs[0] === 'oral') {
+    if (segs[1] === 'practice') return viewOralPractice(app, segs[2]);
+    return viewOralList(app);
+  }
   return viewHome(app);
 }
 
@@ -517,12 +523,16 @@ function viewHome(app) {
   const wdone = getJSON('dele_writing_done', {});
   const writeDone = Object.keys(wdone).filter((k) => wdone[k].done).length;
 
+  const odone = getJSON('dele_oral_done', {});
+  const oralDone = Object.keys(odone).filter((k) => odone[k].done).length;
+
   const mistakes = mistakeCount();
 
   const vocabPct = totalVocab ? (masteredVocab / totalVocab * 100) : 0;
   const readingPct = DATA.reading.length ? (readDone / DATA.reading.length * 100) : 0;
   const writingPct = DATA.writing.length ? (writeDone / DATA.writing.length * 100) : 0;
-  const nivelGlobal = Math.round((vocabPct + (avgGrammar || 0) + readingPct + writingPct) / 4);
+  const oralPct = DATA.oral.length ? (oralDone / DATA.oral.length * 100) : 0;
+  const nivelGlobal = Math.round((vocabPct + (avgGrammar || 0) + readingPct + writingPct + oralPct) / 5);
   const weak = weakestSpot();
 
   app.innerHTML = `
@@ -561,6 +571,8 @@ function viewHome(app) {
       <div class="progress-bar"><div style="width:${readingPct}%"></div></div>
       <div class="stat-row" style="margin-top:12px;"><span>Escritura</span><span>${writeDone}/${DATA.writing.length} practicados</span></div>
       <div class="progress-bar"><div style="width:${writingPct}%"></div></div>
+      <div class="stat-row" style="margin-top:12px;"><span>Oral</span><span>${oralDone}/${DATA.oral.length} practicados</span></div>
+      <div class="progress-bar"><div style="width:${oralPct}%"></div></div>
     </div>
 
     <div class="section-title">Accesos rápidos</div>
@@ -568,6 +580,7 @@ function viewHome(app) {
       <a href="#/grammar" class="list-item"><div>✏️ Gramática</div><span class="chev">›</span></a>
       <a href="#/reading" class="list-item"><div>📖 Lectura</div><span class="chev">›</span></a>
       <a href="#/writing" class="list-item"><div>📝 Escritura</div><span class="chev">›</span></a>
+      <a href="#/oral" class="list-item"><div>🎤 Oral</div><span class="chev">›</span></a>
       <a href="#/vocab" class="list-item"><div>🗂️ Vocabulario</div><span class="chev">›</span></a>
     </div>
 
@@ -1514,6 +1527,238 @@ function viewWritingPractice(app, idxStr) {
     const msg = pickRandom(DATA.motivation && DATA.motivation.sessionEnd.writing);
     if (msg) queueMotivation(msg);
     navigate('/writing');
+  });
+}
+
+// ===================== Vista: Expresión oral =====================
+function buildOralCorrectionPrompt(p, promptText, resumen) {
+  return `Eres un examinador certificado de DELE B2 (Instituto Cervantes). Corrige la siguiente intervención oral de Expresión e Interacción Oral según los criterios oficiales del DELE B2:
+1. Adecuación al contexto (tipo de discurso, registro)
+2. Coherencia y cohesión (organización de las ideas, uso de conectores)
+3. Corrección gramatical y léxica
+4. Fluidez y alcance (variedad léxica, desarrollo suficiente)
+
+TAREA: ${p.titulo} (${p.tipo})
+TEMA/SITUACIÓN: ${promptText}
+
+RESUMEN DE LO QUE DIJE EN VOZ ALTA (transcrito o recordado justo después de practicar):
+"${resumen}"
+
+Por favor, dame:
+- Una valoración aproximada de si esta intervención alcanzaría el nivel B2 (sí / con matices / no todavía) y por qué, en 2-3 frases.
+- Los 3-5 errores más importantes a corregir (cita la frase original, la corrección propuesta y una breve explicación).
+- 2-3 sugerencias concretas para enriquecer el vocabulario, mejorar la fluidez o la organización de las ideas.
+- Un comentario final breve y motivador.
+
+Nota: no puedes evaluar mi pronunciación porque esto es texto; céntrate en el contenido, la gramática, el vocabulario y la organización.
+
+Sé claro, constructivo y concreto.`;
+}
+
+function viewOralList(app) {
+  setTitle('Expresión oral');
+  const done = getJSON('dele_oral_done', {});
+  let html = `<p style="color:var(--text-muted);margin-bottom:16px;">Las tres tareas del examen oral. Practica en voz alta, aunque estés sola en casa: es lo que más cuesta y lo que más se nota el día del examen.</p>`;
+  DATA.oral.forEach((p, i) => {
+    const d = done[i];
+    html += `
+      <a href="#/oral/practice/${i}" class="list-item">
+        <div>
+          <div><strong>${escapeHtml(p.titulo)}</strong></div>
+          <div class="meta">${escapeHtml(p.tipo)} · ~${p.tiempoExposicion} min hablando${d && d.done ? ' · ✅ practicado' : ''}</div>
+        </div>
+        <span class="chev">›</span>
+      </a>`;
+  });
+  app.innerHTML = html;
+}
+
+function viewOralPractice(app, idxStr) {
+  const i = Number(idxStr);
+  const p = DATA.oral[i];
+  if (!p) return navigate('/oral');
+  setTitle(p.titulo);
+
+  const prompts = shuffle(p.prompts).slice(0, p.tipo === 'Monólogo' ? Math.min(2, p.prompts.length) : Math.min(4, p.prompts.length));
+  let selectedPrompt = p.tipo === 'Monólogo' ? null : prompts.join(' / ');
+
+  let phase = p.tiempoPreparacion > 0 ? 'prep' : 'talk';
+  let seconds = (phase === 'prep' ? p.tiempoPreparacion : p.tiempoExposicion) * 60;
+  let timerInterval = null;
+
+  function fmtTime(s) {
+    const m = Math.floor(s / 60), sec = s % 60;
+    return `${pad(m)}:${pad(sec)}`;
+  }
+  function phaseLabel() { return phase === 'prep' ? '🧠 Preparación' : '🗣️ Exposición'; }
+
+  const promptPickerHtml = p.tipo === 'Monólogo'
+    ? `<div class="card">
+        <strong>🎯 Elige un tema</strong>
+        <div id="promptOpts" style="margin-top:10px;">
+          ${prompts.map((t, ti) => `<button class="quiz-opt" data-ti="${ti}">${escapeHtml(t)}</button>`).join('')}
+        </div>
+      </div>`
+    : `<div class="card">
+        <strong>🎯 ${p.tipo === 'Conversación' ? 'Preguntas para practicar' : 'Situaciones para practicar'}</strong>
+        <ol style="margin:10px 0 0;padding-left:20px;">${prompts.map((t) => `<li style="margin-bottom:6px;">${escapeHtml(t)}</li>`).join('')}</ol>
+      </div>`;
+
+  app.innerHTML = `
+    <div class="card">
+      <span class="pill accent">${escapeHtml(p.tipo)}</span>
+      <h2 style="margin-top:8px;">${escapeHtml(p.titulo)}</h2>
+      <p>${escapeHtml(p.instrucciones)}</p>
+    </div>
+
+    ${promptPickerHtml}
+
+    ${p.estructura && p.estructura.length ? `
+    <details class="card">
+      <summary style="cursor:pointer;font-weight:700;list-style:none;">📋 Estructura sugerida</summary>
+      <ol style="margin:10px 0 0;padding-left:20px;">${p.estructura.map((s) => `<li style="margin-bottom:6px;">${escapeHtml(s)}</li>`).join('')}</ol>
+    </details>` : ''}
+
+    ${p.conectores && p.conectores.length ? `
+    <details class="card">
+      <summary style="cursor:pointer;font-weight:700;list-style:none;">🔗 Conectores útiles</summary>
+      <div class="chips">${p.conectores.map((c) => `<span class="chip">${escapeHtml(c)}</span>`).join('')}</div>
+    </details>` : ''}
+
+    <div class="card">
+      <div class="stat-row">
+        <strong id="timerLabel">${phaseLabel()}</strong>
+        <span class="timer" id="timerDisplay">${fmtTime(seconds)}</span>
+      </div>
+      <div class="grid-2" style="margin-top:8px;">
+        <button class="btn secondary small" id="btnTimer">Empezar</button>
+        ${phase === 'prep' ? '<button class="btn secondary small" id="btnSkipPrep">Saltar preparación</button>' : '<span></span>'}
+      </div>
+    </div>
+
+    <div class="card" id="recordCard">
+      <div class="stat-row"><strong>🎙️ Grábate (opcional)</strong></div>
+      <p class="meta" style="color:var(--text-muted);margin-top:4px;">Se guarda solo en tu móvil para que te escuches después; no se sube a ningún sitio.</p>
+      <button class="btn secondary small" id="btnRecord">Grabar</button>
+      <div id="audioPlayback" style="margin-top:10px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="stat-row"><strong>🤖 Corrección con IA</strong></div>
+      <p class="meta" style="color:var(--text-muted);margin-top:4px;">Después de hablar, escribe aquí un resumen de lo que dijiste (o transcribe tu grabación) y pídele feedback a tu IA favorita.</p>
+      <textarea class="writing-area" id="oralResumen" style="min-height:120px;" placeholder="Resumen de lo que dijiste en voz alta..."></textarea>
+      <button class="btn secondary small" id="btnCorrect" style="margin-top:8px;">Corregir con IA</button>
+      <p class="meta" id="correctWarning" style="color:var(--bad);margin-top:6px;"></p>
+    </div>
+
+    <button class="btn" id="btnDone" style="margin-top:6px;">Marcar como practicado</button>
+    <a href="#/oral" class="btn secondary" style="margin-top:10px;">Volver</a>
+  `;
+
+  if (p.tipo === 'Monólogo') {
+    $$('#promptOpts .quiz-opt').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        $$('#promptOpts .quiz-opt').forEach((b) => b.classList.remove('correct'));
+        btn.classList.add('correct');
+        selectedPrompt = btn.textContent;
+      });
+    });
+  }
+
+  function advancePhase() {
+    playChime();
+    if (phase === 'prep') {
+      phase = 'talk';
+      seconds = p.tiempoExposicion * 60;
+      $('#timerLabel').textContent = phaseLabel();
+      $('#timerDisplay').textContent = fmtTime(seconds);
+      $('#btnTimer').textContent = 'Empezar a hablar';
+      $('#btnTimer').disabled = false;
+      const skipBtn = $('#btnSkipPrep');
+      if (skipBtn) skipBtn.remove();
+    } else {
+      $('#btnTimer').textContent = '¡Tiempo!';
+      $('#btnTimer').disabled = true;
+    }
+  }
+
+  $('#btnTimer').addEventListener('click', () => {
+    const btn = $('#btnTimer');
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      btn.textContent = 'Continuar';
+      return;
+    }
+    btn.textContent = 'Pausar';
+    timerInterval = setInterval(() => {
+      seconds = Math.max(0, seconds - 1);
+      $('#timerDisplay').textContent = fmtTime(seconds);
+      if (seconds === 0) { clearInterval(timerInterval); timerInterval = null; advancePhase(); }
+    }, 1000);
+  });
+
+  const skipBtn = $('#btnSkipPrep');
+  if (skipBtn) {
+    skipBtn.addEventListener('click', () => {
+      if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+      seconds = 0;
+      advancePhase();
+    });
+  }
+
+  const canRecord = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+  if (!canRecord) {
+    $('#recordCard').innerHTML = '<div class="stat-row"><strong>🎙️ Grábate (opcional)</strong></div><p class="meta" style="color:var(--text-muted);margin-top:4px;">Tu navegador no permite grabar audio aquí. Prueba en Chrome.</p>';
+  } else {
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let recording = false;
+    $('#btnRecord').addEventListener('click', async () => {
+      if (recording) { mediaRecorder.stop(); return; }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        recordedChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
+        mediaRecorder.onstop = () => {
+          stream.getTracks().forEach((t) => t.stop());
+          const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+          const url = URL.createObjectURL(blob);
+          $('#audioPlayback').innerHTML = `<audio controls src="${url}" style="width:100%;"></audio>`;
+          recording = false;
+          $('#btnRecord').textContent = 'Grabar de nuevo';
+        };
+        mediaRecorder.start();
+        recording = true;
+        $('#btnRecord').textContent = '⏹️ Parar grabación';
+      } catch (err) {
+        $('#audioPlayback').innerHTML = '<p class="meta" style="color:var(--bad);">No se pudo acceder al micrófono.</p>';
+      }
+    });
+  }
+
+  $('#btnCorrect').addEventListener('click', async () => {
+    const resumen = $('#oralResumen').value.trim();
+    if (wordCount(resumen) < 10) {
+      $('#correctWarning').textContent = 'Escribe un resumen un poco más largo antes de pedir la corrección.';
+      return;
+    }
+    $('#correctWarning').textContent = '';
+    const promptText = buildOralCorrectionPrompt(p, selectedPrompt || p.titulo, resumen);
+    await copyToClipboard(promptText);
+    showCorrectionHelp();
+  });
+
+  $('#btnDone').addEventListener('click', () => {
+    const done = getJSON('dele_oral_done', {});
+    done[i] = { done: true, lastDate: dateStr() };
+    setJSON('dele_oral_done', done);
+    touchStreak();
+    celebrate();
+    const msg = pickRandom(DATA.motivation && DATA.motivation.sessionEnd.oral);
+    if (msg) queueMotivation(msg);
+    navigate('/oral');
   });
 }
 

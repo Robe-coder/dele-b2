@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dele-b2-v10';
+const CACHE_NAME = 'dele-b2-v11';
 const PRECACHE_URLS = [
   './',
   './index.html',
@@ -12,6 +12,7 @@ const PRECACHE_URLS = [
   './data/motivation.json',
   './data/tenses.json',
   './data/verbs.json',
+  './data/oral.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-maskable-512.png',

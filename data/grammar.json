@@ -135,5 +135,50 @@
       { "pregunta": "Este verano por fin me atreví ___ hablar en español con desconocidos.", "opciones": ["a", "de", "en", "con"], "correcta": 0, "explicacion": "\"Atreverse A\" + infinitivo." },
       { "pregunta": "Depende ___ el tiempo que tengamos ese día.", "opciones": ["de", "en", "con", "a"], "correcta": 0, "explicacion": "\"Depender DE algo/alguien\"." }
     ]
+  },
+  {
+    "id": "voz-pasiva",
+    "titulo": "Voz pasiva y pasiva refleja",
+    "explicacion": "La voz pasiva con \"ser\" (ser + participio, que concuerda en género/número, + \"por\" + agente) se usa sobre todo en lengua escrita y formal, y suele aparecer cuando se menciona quién realiza la acción. La pasiva refleja (\"se\" + verbo en 3ª persona) es mucho más frecuente en español hablado, sobre todo cuando no interesa o no se sabe quién hace la acción.",
+    "items": [
+      { "pregunta": "Los pisos de este barrio ___ muy rápido.", "opciones": ["se venden", "son vendidos", "venden", "se vende"], "correcta": 0, "explicacion": "Pasiva refleja: el verbo concuerda en plural con \"los pisos\" y no se menciona quién los vende." },
+      { "pregunta": "El ladrón ___ por la policía ayer por la tarde.", "opciones": ["detuvo", "se detuvo", "fue detenido", "detenía"], "correcta": 2, "explicacion": "Al mencionar el agente (\"por la policía\") se usa la pasiva con \"ser\" + participio." },
+      { "pregunta": "___ español en casi toda Latinoamérica.", "opciones": ["Se habla", "Es hablado", "Habla", "Hablan"], "correcta": 0, "explicacion": "Pasiva refleja, muy habitual cuando no hay agente explícito." },
+      { "pregunta": "Esta novela ___ por un autor colombiano muy conocido.", "opciones": ["escribió", "se escribió", "fue escrita", "escribe"], "correcta": 2, "explicacion": "Agente explícito (\"por un autor...\") pide pasiva con \"ser\"; \"escrita\" concuerda con \"esta novela\"." },
+      { "pregunta": "___ no fumar dentro del hospital.", "opciones": ["Se prohíbe", "Es prohibido", "Prohíbe", "Prohíben"], "correcta": 0, "explicacion": "La pasiva refleja es la forma habitual para normas impersonales (se prohíbe/permite/recomienda...)." },
+      { "pregunta": "Las entradas para el concierto ___ en menos de una hora.", "opciones": ["se agotaron", "agotaron", "fueron agotadas", "agotaban"], "correcta": 0, "explicacion": "Pasiva refleja en plural, sin agente mencionado." },
+      { "pregunta": "El proyecto ___ por el equipo de investigación durante tres años.", "opciones": ["desarrolló", "se desarrolló", "fue desarrollado", "desarrollaba"], "correcta": 2, "explicacion": "Agente explícito (\"por el equipo...\") pide pasiva con \"ser\"." },
+      { "pregunta": "Aquí ___ varios idiomas.", "opciones": ["se hablan", "es hablado", "hablan", "se habla"], "correcta": 0, "explicacion": "El verbo concuerda en plural con el sujeto pasivo \"varios idiomas\"." }
+    ]
+  },
+  {
+    "id": "relativos",
+    "titulo": "Pronombres relativos",
+    "explicacion": "Los relativos (que, quien/quienes, el/la cual, cuyo/a/os/as, donde) introducen oraciones que añaden información sobre un sustantivo. \"Cuyo\" concuerda con lo poseído, no con el poseedor, y equivale a \"de quien/del cual\". Cuando el relativo va detrás de una preposición, se suele usar \"el/la que\" (\"con la que\", \"por el que\"...) en vez de \"que\" solo.",
+    "items": [
+      { "pregunta": "La mujer ___ trabaja en la farmacia es muy simpática.", "opciones": ["que", "cuyo", "donde", "cual"], "correcta": 0, "explicacion": "\"Que\" es el relativo general para personas o cosas como sujeto." },
+      { "pregunta": "Ese es el médico ___ consulta está en el segundo piso.", "opciones": ["que", "cuya", "cuyo", "quien"], "correcta": 1, "explicacion": "\"Cuya\" concuerda con \"consulta\" (femenino), no con \"el médico\"." },
+      { "pregunta": "La persona ___ hablé ayer me dio la información.", "opciones": ["que", "con la que", "cuyo", "donde"], "correcta": 1, "explicacion": "El relativo va detrás de la preposición \"con\", así que se usa \"con la que\"." },
+      { "pregunta": "Este es el pueblo ___ nací.", "opciones": ["que", "donde", "cuyo", "cual"], "correcta": 1, "explicacion": "\"Donde\" se usa para referirse a un lugar." },
+      { "pregunta": "Mis padres, ___ viven en Manila, vienen a visitarnos en verano.", "opciones": ["que", "quienes", "cuyos", "donde"], "correcta": 1, "explicacion": "\"Quienes\" en una oración explicativa (entre comas) referida a personas." },
+      { "pregunta": "El motivo ___ dimitió sigue siendo un misterio.", "opciones": ["que", "por el que", "cuyo", "donde"], "correcta": 1, "explicacion": "Relativo con preposición: \"por el que\" retoma \"el motivo\"." },
+      { "pregunta": "Los vecinos, ___ hijos van a mi colegio, son muy majos.", "opciones": ["que", "cuyos", "quienes", "donde"], "correcta": 1, "explicacion": "\"Cuyos\" concuerda con \"hijos\" (masculino plural), no con \"los vecinos\"." },
+      { "pregunta": "Esa es la razón ___ no vine a la fiesta.", "opciones": ["que", "por la que", "cuyo", "donde"], "correcta": 1, "explicacion": "Relativo con preposición: \"por la que\" retoma \"la razón\"." }
+    ]
+  },
+  {
+    "id": "verbos-cambio",
+    "titulo": "Verbos de cambio",
+    "explicacion": "Para expresar un cambio o transformación, el español usa varios verbos con matices distintos: PONERSE (cambio físico o de ánimo, temporal), VOLVERSE (cambio más permanente, a veces brusco, de carácter), HACERSE (cambio logrado con esfuerzo propio: profesión, ideología, religión), LLEGAR A SER (resultado de un proceso largo) y CONVERTIRSE EN (transformación de algo/alguien en otra cosa distinta).",
+    "items": [
+      { "pregunta": "Cuando le dieron la noticia, ___ muy nerviosa.", "opciones": ["se puso", "se volvió", "se hizo", "llegó a ser"], "correcta": 0, "explicacion": "\"Ponerse\" para un cambio de ánimo momentáneo." },
+      { "pregunta": "Después del accidente, ___ una persona muy desconfiada.", "opciones": ["se puso", "se volvió", "se hizo", "se convirtió"], "correcta": 1, "explicacion": "\"Volverse\" para un cambio de carácter más permanente." },
+      { "pregunta": "Trabajó muchísimo y ___ médico a los treinta años.", "opciones": ["se puso", "se volvió", "se hizo", "llegó"], "correcta": 2, "explicacion": "\"Hacerse\" para un cambio de profesión logrado con esfuerzo propio." },
+      { "pregunta": "Con los años, aquel pequeño negocio ___ una gran empresa.", "opciones": ["se puso", "se volvió", "se convirtió en", "se hizo"], "correcta": 2, "explicacion": "\"Convertirse en\" para la transformación de algo en otra cosa distinta." },
+      { "pregunta": "Después de mucho esfuerzo, ___ directora del hospital.", "opciones": ["se puso", "llegó a ser", "se convirtió", "se volvió"], "correcta": 1, "explicacion": "\"Llegar a ser\" para el resultado final de un proceso largo." },
+      { "pregunta": "El cielo ___ oscuro de repente antes de la tormenta.", "opciones": ["se puso", "se hizo", "se convirtió en", "llegó a ser"], "correcta": 0, "explicacion": "\"Ponerse\" también sirve para cambios físicos rápidos (el cielo, la cara...)." },
+      { "pregunta": "Con la crisis, mucha gente ___ más ahorradora.", "opciones": ["se puso", "se volvió", "se convirtió", "llegó"], "correcta": 1, "explicacion": "Cambio de actitud o costumbre más duradero." },
+      { "pregunta": "El agua ___ hielo a cero grados.", "opciones": ["se pone", "se convierte en", "se vuelve", "se hace"], "correcta": 1, "explicacion": "Transformación de una sustancia en otra." }
+    ]
   }
 ]

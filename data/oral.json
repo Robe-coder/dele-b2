@@ -1,0 +1,72 @@
+[
+  {
+    "id": "tarea1-monologo",
+    "tarea": 1,
+    "titulo": "Tarea 1 · Presentación oral",
+    "tipo": "Monólogo",
+    "instrucciones": "Elige uno de los dos temas propuestos y expón tu opinión de forma organizada durante unos minutos, como si hablaras ante el tribunal.",
+    "tiempoPreparacion": 3,
+    "tiempoExposicion": 3,
+    "estructura": [
+      "Introducción: presenta el tema y adelanta tu postura",
+      "Desarrollo: da 2-3 argumentos con ejemplos o experiencias propias",
+      "Contraargumento breve (opcional): reconoce el otro punto de vista",
+      "Conclusión: resume tu opinión final"
+    ],
+    "conectores": ["en primer lugar", "por un lado / por otro lado", "además", "sin embargo", "en mi opinión", "por ejemplo", "en resumen", "para concluir"],
+    "prompts": [
+      "¿Crees que la tecnología nos hace más o menos sociables?",
+      "¿Es mejor trabajar desde casa o en una oficina?",
+      "¿Debería ser obligatorio aprender un segundo idioma desde la infancia?",
+      "¿Las redes sociales tienen más ventajas o más inconvenientes?",
+      "¿Es importante mantener las tradiciones familiares en la sociedad actual?",
+      "¿Debería el gobierno invertir más en sanidad pública o en educación?",
+      "¿Crees que emigrar a otro país merece la pena, aunque sea difícil al principio?",
+      "¿Es mejor criar a los hijos cerca de la familia o de forma más independiente?",
+      "¿Deberían los horarios de trabajo ser más flexibles para conciliar con la vida familiar?",
+      "¿Crees que la inteligencia artificial cambiará tu profesión en los próximos años?"
+    ]
+  },
+  {
+    "id": "tarea2-conversacion",
+    "tarea": 2,
+    "titulo": "Tarea 2 · Conversación sobre el tema",
+    "tipo": "Conversación",
+    "instrucciones": "Imagina que el entrevistador te hace estas preguntas sobre el tema que elegiste en la Tarea 1. Respóndelas en voz alta, una por una, con calma.",
+    "tiempoPreparacion": 0,
+    "tiempoExposicion": 4,
+    "estructura": [],
+    "conectores": ["porque", "en mi caso", "de hecho", "aunque", "creo que", "no estoy del todo segura, pero..."],
+    "prompts": [
+      "¿Por qué piensas eso?",
+      "¿Puedes darme un ejemplo concreto de tu propia experiencia?",
+      "¿Conoces a alguien a quien le haya pasado lo contrario?",
+      "¿Cómo crees que era esta situación hace diez años?",
+      "¿Crees que esto será igual dentro de veinte años?",
+      "¿Qué opina la gente de tu entorno sobre este tema?",
+      "Si pudieras cambiar algo de esta situación, ¿qué cambiarías?",
+      "¿Hay alguna desventaja que no hayas mencionado todavía?"
+    ]
+  },
+  {
+    "id": "tarea3-interaccion",
+    "tarea": 3,
+    "titulo": "Tarea 3 · Interacción / simulación",
+    "tipo": "Interacción",
+    "instrucciones": "Lee la situación y responde en voz alta como si estuvieras hablando de verdad con esa persona.",
+    "tiempoPreparacion": 2,
+    "tiempoExposicion": 3,
+    "estructura": [],
+    "conectores": ["lo siento, pero...", "¿le importaría...?", "me gustaría...", "¿sería posible...?", "entiendo, pero..."],
+    "prompts": [
+      "Estás en la consulta del médico. Explica tus síntomas y pide una recomendación.",
+      "Un compañero de trabajo te pide cambiar un turno. Explica si puedes o no y por qué.",
+      "Llamas a una guardería para pedir información sobre plazas y horarios.",
+      "Un amigo te invita a un viaje que no puedes pagar ahora mismo. Explícaselo con tacto.",
+      "Estás en una entrevista de trabajo: preséntate y explica por qué te interesa el puesto.",
+      "Tu casero te dice que va a subir el alquiler. Reacciona y negocia.",
+      "Un vecino se queja del ruido de tu hija jugando. Responde con educación.",
+      "Estás devolviendo un producto defectuoso en una tienda. Explica el problema."
+    ]
+  }
+]
