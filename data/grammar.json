@@ -180,5 +180,50 @@
       { "pregunta": "Con la crisis, mucha gente ___ más ahorradora.", "opciones": ["se puso", "se volvió", "se convirtió", "llegó"], "correcta": 1, "explicacion": "Cambio de actitud o costumbre más duradero." },
       { "pregunta": "El agua ___ hielo a cero grados.", "opciones": ["se pone", "se convierte en", "se vuelve", "se hace"], "correcta": 1, "explicacion": "Transformación de una sustancia en otra." }
     ]
+  },
+  {
+    "id": "comparativos-superlativos",
+    "titulo": "Comparativos y superlativos",
+    "explicacion": "Comparativo de superioridad: MÁS + adjetivo/sustantivo/verbo + QUE. De inferioridad: MENOS + ... + QUE. De igualdad: TAN + adjetivo + COMO. Hay comparativos irregulares: bueno→mejor, malo→peor, grande→mayor, pequeño→menor (no se dice \"más bueno\"). El superlativo relativo es el/la/los/las (+ sustantivo) + más/menos + adjetivo + DE; el superlativo absoluto añade el sufijo -ÍSIMO/A (nunca se combina con \"muy\": no \"muy dificilísimo\").",
+    "items": [
+      { "pregunta": "Este examen es ___ difícil que el anterior.", "opciones": ["más", "tan", "mejor", "tanto"], "correcta": 0, "explicacion": "Comparativo de superioridad: MÁS + adjetivo + QUE." },
+      { "pregunta": "Ana no es ___ alta como su hermana.", "opciones": ["más", "tan", "menos", "mejor"], "correcta": 1, "explicacion": "Comparativo de igualdad: TAN + adjetivo + COMO." },
+      { "pregunta": "Este hotel tiene ___ habitaciones que el otro; solo tiene diez.", "opciones": ["más", "tantas", "menos", "tan"], "correcta": 2, "explicacion": "Comparativo de inferioridad: MENOS + sustantivo + QUE." },
+      { "pregunta": "Mi hermano pequeño come ___ que yo, siempre repite plato.", "opciones": ["tanto", "tan", "más", "mejor"], "correcta": 2, "explicacion": "Comparativo de superioridad con verbo (sin adjetivo): verbo + MÁS/MENOS + QUE." },
+      { "pregunta": "Esta es la decisión ___ difícil de todas las que he tomado.", "opciones": ["más", "tan", "mejor", "menos peor"], "correcta": 0, "explicacion": "Superlativo relativo: el/la + sustantivo + MÁS/MENOS + adjetivo + DE." },
+      { "pregunta": "El libro es bueno, pero la película es mucho ___.", "opciones": ["mejor", "más buena", "más bueno", "buenísima"], "correcta": 0, "explicacion": "\"Bueno\" tiene comparativo irregular \"mejor\" (no se dice \"más bueno\")." },
+      { "pregunta": "Mi abuela tiene noventa años; es la ___ de la familia.", "opciones": ["mayor", "más grande", "más vieja", "grande"], "correcta": 0, "explicacion": "Comparativo/superlativo irregular de edad: grande→mayor (para personas)." },
+      { "pregunta": "Este ejercicio es ___; no hay quien lo entienda.", "opciones": ["dificilísimo", "muy dificilísimo", "más difícil", "tan difícil"], "correcta": 0, "explicacion": "Superlativo absoluto con el sufijo -ÍSIMO. No se combina con \"muy\" (sería redundante)." }
+    ]
+  },
+  {
+    "id": "colocacion-pronombres",
+    "titulo": "Colocación de pronombres",
+    "explicacion": "Los pronombres átonos (me, te, lo, la, le, nos, os, los, las, les) van antes del verbo conjugado, pero se pegan al final del infinitivo, el gerundio y el imperativo afirmativo (a veces con tilde nueva: dárselo, cómpratelo). Cuando hay dos pronombres juntos, el de objeto indirecto va antes que el de objeto directo, y \"le/les\" cambia a \"SE\" delante de lo/la/los/las (se lo dije, no \"le lo dije\").",
+    "items": [
+      { "pregunta": "¿Mis llaves? ___ dejé encima de la mesa.", "opciones": ["Las", "Los", "Le", "Se las"], "correcta": 0, "explicacion": "\"Las llaves\" (femenino plural) se sustituye por \"las\"." },
+      { "pregunta": "Quiero dar un regalo a mi hija. Voy a ___ mañana.", "opciones": ["dárselo", "darlelo", "darselo", "dárlelo"], "correcta": 0, "explicacion": "Con infinitivo, los pronombres se pegan al final y \"le\" cambia a \"se\" ante \"lo\": \"dárselo\" (con tilde, por ser esdrújula)." },
+      { "pregunta": "No ___ digas mentiras a tu madre.", "opciones": ["le", "la", "lo", "les"], "correcta": 0, "explicacion": "\"A tu madre\" es objeto indirecto singular → \"le\"." },
+      { "pregunta": "Estoy explicándo___ el ejercicio a los alumnos ahora mismo.", "opciones": ["selo", "les lo", "lo les", "le lo"], "correcta": 0, "explicacion": "Con gerundio, los pronombres se pegan al final: \"les\" + \"lo\" → \"se lo\" → \"explicándoselo\"." },
+      { "pregunta": "Ese abrigo te queda genial: ¡___!", "opciones": ["cómpratelo", "te lo compra", "cómpralo te", "comprátelo"], "correcta": 0, "explicacion": "Imperativo afirmativo + dos pronombres pegados al final, con tilde: \"cómpratelo\"." },
+      { "pregunta": "A mí ___ encanta este plan.", "opciones": ["me", "te", "le", "nos"], "correcta": 0, "explicacion": "El pronombre concuerda con el sujeto de la oración: \"a mí\" → \"me\"." },
+      { "pregunta": "Vimos a Roberto en el mercado pero no ___ saludamos.", "opciones": ["lo", "le", "la", "les"], "correcta": 0, "explicacion": "\"A Roberto\" es objeto directo masculino → \"lo\" (evita el leísmo)." },
+      { "pregunta": "Este problema es complicado, pero ___ vamos a resolver juntos.", "opciones": ["lo", "le", "la", "se lo"], "correcta": 0, "explicacion": "\"El problema\" (masculino) es objeto directo → \"lo\"." }
+    ]
+  },
+  {
+    "id": "lo-neutro",
+    "titulo": "\"Lo\" neutro",
+    "explicacion": "\"Lo\" + adjetivo (o participio) forma un sustantivo abstracto que se refiere a una cualidad o idea general, no a un objeto concreto: lo bueno, lo difícil, lo importante... \"Lo que\" introduce una idea ya mencionada o desconocida: \"no entiendo lo que dices\". También aparece en estructuras enfáticas: \"lo cansada que estoy\" (= cuán cansada estoy).",
+    "items": [
+      { "pregunta": "___ bueno de este trabajo es el horario flexible.", "opciones": ["Lo", "El", "La", "Los"], "correcta": 0, "explicacion": "\"Lo\" + adjetivo se refiere a una cualidad abstracta, no a un sustantivo concreto." },
+      { "pregunta": "No entiendo ___ quieres decir.", "opciones": ["lo que", "lo", "el que", "que"], "correcta": 0, "explicacion": "\"Lo que\" introduce algo que alguien dice o piensa, sin nombrarlo directamente." },
+      { "pregunta": "___ más me preocupa es el examen oral.", "opciones": ["Lo", "El", "La", "Un"], "correcta": 0, "explicacion": "\"Lo\" + adjetivo/adverbio en grado superlativo para hablar de una idea general." },
+      { "pregunta": "No te imaginas ___ cansada que estoy hoy.", "opciones": ["lo", "que", "cuánto", "cómo"], "correcta": 0, "explicacion": "Estructura enfática \"lo + adjetivo + que\" (= cuán cansada estoy)." },
+      { "pregunta": "Haz ___ que puedas, no te preocupes por el resto.", "opciones": ["lo", "el", "que", "cuanto"], "correcta": 0, "explicacion": "\"Lo que\" con el valor de \"aquello que\"." },
+      { "pregunta": "___ difícil no es aprender el vocabulario, sino usarlo bien.", "opciones": ["Lo", "El", "La", "Un"], "correcta": 0, "explicacion": "\"Lo\" + adjetivo para hablar de una idea o cualidad en abstracto." },
+      { "pregunta": "Todavía no sé ___ voy a hacer este verano.", "opciones": ["lo que", "lo", "que", "el que"], "correcta": 0, "explicacion": "\"Lo que\" en preguntas indirectas." },
+      { "pregunta": "Me sorprendió ___ rápido que aprendiste español.", "opciones": ["lo", "que", "cuánto", "tan"], "correcta": 0, "explicacion": "Estructura enfática \"lo + adverbio + que\"." }
+    ]
   }
 ]

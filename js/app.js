@@ -604,18 +604,22 @@ function buildMiniSession() {
 
   if (items.length < 6) {
     const gstats = getJSON('dele_grammar_stats', {});
-    const catsByWeakest = DATA.grammar.map((cat) => {
+    // Se baraja antes de ordenar por nota para que, entre bloques empatados (p. ej. varios
+    // "sin practicar todavía"), no gane siempre el mismo (el primero del array) en cada sesión:
+    // así los bloques nuevos también tienen su turno y no quedan enterrados al final de la lista.
+    const catsByWeakest = shuffle(DATA.grammar).map((cat) => {
       const s = gstats[cat.id];
       return { cat, pct: s ? (s.lastCorrect / s.lastTotal) : -1 };
     }).sort((a, b) => a.pct - b.pct);
-    outer:
+    // Como mucho una pregunta por bloque, para que el relleno tenga variedad de temas
+    // en vez de agotar siempre el mismo bloque más flojo.
     for (const { cat } of catsByWeakest) {
+      if (items.length >= 6) break;
       const catItems = shuffle(withMistakeIds(cat.items, `grammar-${cat.id}`, 'grammar', cat.titulo));
-      for (const it of catItems) {
-        if (usedIds.has(it.mistakeId)) continue;
-        usedIds.add(it.mistakeId);
-        items.push({ type: 'choice', q: it });
-        if (items.length >= 6) break outer;
+      const pick = catItems.find((it) => !usedIds.has(it.mistakeId));
+      if (pick) {
+        usedIds.add(pick.mistakeId);
+        items.push({ type: 'choice', q: pick });
       }
     }
   }
