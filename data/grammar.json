@@ -118,5 +118,22 @@
       { "pregunta": "Sigo ___ trabajo desde hace meses.", "opciones": ["buscando", "buscado", "buscar", "busco"], "correcta": 0, "explicacion": "\"Seguir + gerundio\" expresa la continuidad de una acción." },
       { "pregunta": "Al final terminó ___ el puesto que le ofrecieron.", "opciones": ["aceptando", "aceptado", "aceptar", "acepta"], "correcta": 0, "explicacion": "\"Terminar/acabar + gerundio\" expresa el resultado final de un proceso." }
     ]
+  },
+  {
+    "id": "preposiciones",
+    "titulo": "Verbos con preposición fija",
+    "explicacion": "Muchos verbos van siempre acompañados de una preposición fija (su \"régimen preposicional\"): pensar EN, soñar CON, consistir EN, depender DE, contar CON... No sigue una lógica traducible desde el inglés ni el tagalo, así que hay que memorizar cada combinación.",
+    "items": [
+      { "pregunta": "Todavía no me he acostumbrado ___ vivir aquí.", "opciones": ["a", "de", "en", "con"], "correcta": 0, "explicacion": "\"Acostumbrarse A\" + infinitivo o sustantivo." },
+      { "pregunta": "El examen consiste ___ cuatro pruebas.", "opciones": ["de", "en", "con", "a"], "correcta": 1, "explicacion": "\"Consistir EN\" indica de qué está compuesto algo." },
+      { "pregunta": "No cuentes ___ mí para ese plan, no puedo ir.", "opciones": ["con", "de", "en", "a"], "correcta": 0, "explicacion": "\"Contar CON alguien\" es confiar en su ayuda o presencia." },
+      { "pregunta": "Al final se casó ___ su compañero de trabajo.", "opciones": ["con", "de", "a", "en"], "correcta": 0, "explicacion": "\"Casarse CON alguien\"." },
+      { "pregunta": "Se olvidó ___ llamarme ayer.", "opciones": ["de", "en", "a", "con"], "correcta": 0, "explicacion": "\"Olvidarse DE\" + infinitivo o sustantivo." },
+      { "pregunta": "Siempre te quejas ___ todo, nunca estás contenta.", "opciones": ["de", "con", "en", "a"], "correcta": 0, "explicacion": "\"Quejarse DE algo/alguien\"." },
+      { "pregunta": "¿Te acuerdas ___ aquel profesor tan estricto?", "opciones": ["de", "con", "en", "a"], "correcta": 0, "explicacion": "\"Acordarse DE\" (lo contrario de \"olvidarse de\")." },
+      { "pregunta": "Quedamos ___ vernos el sábado por la tarde.", "opciones": ["en", "con", "de", "a"], "correcta": 0, "explicacion": "\"Quedar EN\" + infinitivo es acordar hacer algo." },
+      { "pregunta": "Este verano por fin me atreví ___ hablar en español con desconocidos.", "opciones": ["a", "de", "en", "con"], "correcta": 0, "explicacion": "\"Atreverse A\" + infinitivo." },
+      { "pregunta": "Depende ___ el tiempo que tengamos ese día.", "opciones": ["de", "en", "con", "a"], "correcta": 0, "explicacion": "\"Depender DE algo/alguien\"." }
+    ]
   }
 ]
