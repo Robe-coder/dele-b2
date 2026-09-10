@@ -470,6 +470,7 @@ async function render() {
   }
   if (segs[0] === 'grammar') {
     if (segs[1] === 'quiz') return viewGrammarQuiz(app, segs[2]);
+    if (segs[1] === 'theory') return viewGrammarTheory(app, segs[2]);
     if (segs[1] === 'tenses') {
       if (segs[2] === 'conjugar') return viewTensesConjugate(app, segs[3]);
       if (segs[2] === 'frases') return viewTensesFrases(app, segs[3]);
@@ -909,14 +910,32 @@ function viewGrammarList(app) {
     const s = gstats[cat.id];
     const pct = s ? Math.round((s.lastCorrect / s.lastTotal) * 100) : null;
     html += `
-      <a href="#/grammar/quiz/${cat.id}" class="list-item">
-        <div>
-          <div><strong>${escapeHtml(cat.titulo)}</strong></div>
-          <div class="meta">${pct !== null ? `Última puntuación: ${pct}%` : 'Sin practicar todavía'}</div>
+      <div class="card">
+        <div class="stat-row">
+          <strong>${escapeHtml(cat.titulo)}</strong>
+          <span class="pill ${pct !== null ? (pct >= 75 ? 'good' : pct < 50 ? 'bad' : '') : ''}">${pct !== null ? pct + '%' : 'nuevo'}</span>
         </div>
-        <span class="pill ${pct !== null ? (pct >= 75 ? 'good' : pct < 50 ? 'bad' : '') : ''}">${pct !== null ? pct + '%' : 'nuevo'}</span>
-      </a>`;
+        <div class="meta" style="margin-top:2px;">${pct !== null ? `Última puntuación: ${pct}%` : 'Sin practicar todavía'}</div>
+        <div class="grid-2" style="margin-top:10px;">
+          <a href="#/grammar/theory/${cat.id}" class="btn small secondary">📖 Teoría</a>
+          <a href="#/grammar/quiz/${cat.id}" class="btn small secondary">✏️ Practicar</a>
+        </div>
+      </div>`;
   });
+  app.innerHTML = html;
+}
+
+function viewGrammarTheory(app, catId) {
+  const cat = DATA.grammar.find((c) => c.id === catId);
+  if (!cat) return navigate('/grammar');
+  setTitle(cat.titulo);
+  // Ejemplos reales: cogemos unas pocas preguntas del quiz y rellenamos el hueco con la
+  // respuesta correcta, así se ven frases completas sin tener que escribir contenido aparte.
+  const ejemplos = shuffle(cat.items).slice(0, 4).map((it) => it.pregunta.replace('___', it.opciones[it.correcta]));
+  let html = `<div class="section-title">Explicación</div><div class="card"><p style="margin:0;">${escapeHtml(cat.explicacion)}</p></div>`;
+  html += `<div class="section-title">Ejemplos</div><div class="card">${ejemplos.map((e) => `<p style="font-style:italic;margin-bottom:6px;">"${escapeHtml(e)}"</p>`).join('')}</div>`;
+  html += `<a href="#/grammar/quiz/${catId}" class="btn" style="margin-top:6px;">✏️ Practicar este bloque</a>`;
+  html += `<a href="#/grammar" class="btn secondary" style="margin-top:10px;">Volver</a>`;
   app.innerHTML = html;
 }
 
