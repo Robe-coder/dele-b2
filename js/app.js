@@ -202,6 +202,27 @@ function updateStreakBadge() {
   if (badge) badge.textContent = `🔥 ${s.count}`;
 }
 
+// ===================== Repaso de errores =====================
+// Cualquier pregunta fallada en gramática, lectura o tiempos verbales se guarda aquí
+// (indexada por un id único de la pregunta) y desaparece en cuanto se acierta.
+function getMistakes() { return getJSON('dele_mistakes', {}); }
+function saveMistakes(m) { setJSON('dele_mistakes', m); }
+function recordMistake(id, data) {
+  const m = getMistakes();
+  const prev = m[id];
+  m[id] = Object.assign({}, data, { mistakeId: id, veces: (prev ? prev.veces : 0) + 1, fecha: dateStr() });
+  saveMistakes(m);
+}
+function clearMistake(id) {
+  const m = getMistakes();
+  if (m[id]) { delete m[id]; saveMistakes(m); }
+}
+function mistakeCount() { return Object.keys(getMistakes()).length; }
+// Añade a cada pregunta un id único (y su tipo/contexto) para poder registrarla si se falla.
+function withMistakeIds(items, prefix, tipo, contexto) {
+  return items.map((it, i) => Object.assign({}, it, { mistakeId: `${prefix}-${i}`, mistakeTipo: tipo, mistakeContexto: contexto }));
+}
+
 // ===================== Datos =====================
 const DATA = { vocab: [], vocabFlat: [], grammar: [], reading: [], writing: [], motivation: null, tenses: [], verbs: [] };
 
@@ -402,6 +423,10 @@ async function render() {
     if (segs[1] === 'practice') return viewWritingPractice(app, segs[2]);
     return viewWritingList(app);
   }
+  if (segs[0] === 'repaso') {
+    if (segs[1]) return viewRepasoTipo(app, segs[1]);
+    return viewRepaso(app);
+  }
   return viewHome(app);
 }
 
@@ -429,6 +454,8 @@ function viewHome(app) {
   const wdone = getJSON('dele_writing_done', {});
   const writeDone = Object.keys(wdone).filter((k) => wdone[k].done).length;
 
+  const mistakes = mistakeCount();
+
   app.innerHTML = `
     <div class="card">
       <h2>${escapeHtml(pickGreeting())}</h2>
@@ -446,6 +473,7 @@ function viewHome(app) {
     </div>
 
     <a href="#/vocab/review" class="btn" style="margin-bottom:14px;">🗂️ Repasar vocabulario ${dueVocab ? `(${dueVocab})` : ''}</a>
+    ${mistakes ? `<a href="#/repaso" class="btn secondary" style="margin-bottom:14px;">🔁 Repaso de errores (${mistakes})</a>` : ''}
 
     <div class="section-title">Tu progreso</div>
     <div class="card">
@@ -630,7 +658,7 @@ function viewGrammarQuiz(app, catId) {
   setTitle(cat.titulo);
   runQuiz(app, {
     intro: cat.explicacion,
-    items: cat.items,
+    items: withMistakeIds(cat.items, `grammar-${cat.id}`, 'grammar', cat.titulo),
     backRoute: '/grammar',
     kind: 'grammar',
     onFinish: (correct, total) => {
@@ -745,6 +773,17 @@ function viewTensesConjugate(app, tiempoId) {
     correct.forEach((c, i) => {
       const input = $(`#cf${i}`);
       const right = isCorrectAnswer(input.value, c);
+      const mistakeId = `tenses-conjugate-${tiempoId}-${verb.infinitivo}-${i}`;
+      if (right) {
+        clearMistake(mistakeId);
+      } else {
+        recordMistake(mistakeId, {
+          tipo: 'tenses-conjugate',
+          contexto: found.tiempo.nombre,
+          frase: `${verb.infinitivo} — ${PRONOMBRES[i]} (${found.tiempo.nombre})`,
+          respuesta: c
+        });
+      }
       input.classList.add(right ? 'field-correct' : 'field-incorrect');
       input.disabled = true;
       if (!right) {
@@ -804,6 +843,10 @@ function runClozeQuiz(app, opts) {
     const input = $('#clozeInput');
     const correct = isCorrectAnswer(input.value, q.respuesta);
     if (correct) correctCount++;
+    if (q.mistakeId) {
+      if (correct) clearMistake(q.mistakeId);
+      else recordMistake(q.mistakeId, { tipo: q.mistakeTipo, contexto: q.mistakeContexto, frase: q.frase, respuesta: q.respuesta });
+    }
     input.classList.add(correct ? 'field-correct' : 'field-incorrect');
     input.disabled = true;
     $('#clozeExplain').innerHTML = `<div class="quiz-explain">${correct ? '✅ ¡Correcto!' : `❌ La respuesta correcta es: <strong>${escapeHtml(q.respuesta.replace(/\//g, ' / '))}</strong>`}</div>`;
@@ -834,7 +877,8 @@ function viewTensesFrases(app, catId) {
   const cat = DATA.tenses.find((c) => c.id === catId);
   if (!cat || !cat.practicaFrases) return navigate('/grammar/tenses');
   setTitle(`Practicar: ${cat.titulo}`);
-  runClozeQuiz(app, { items: shuffle(cat.practicaFrases), backRoute: `/grammar/tenses/${catId}` });
+  const items = withMistakeIds(cat.practicaFrases, `tenses-frases-${catId}`, 'tenses-frases', cat.titulo);
+  runClozeQuiz(app, { items: shuffle(items), backRoute: `/grammar/tenses/${catId}` });
 }
 
 function viewTensesFormas(app) {
@@ -867,11 +911,17 @@ function viewTensesFormas(app) {
   }
 
   function checkFormas() {
-    const checks = [['fInf', verb.infinitivo], ['fGer', verb.gerundio], ['fPart', verb.participio]];
+    const checks = [['fInf', verb.infinitivo, 'infinitivo'], ['fGer', verb.gerundio, 'gerundio'], ['fPart', verb.participio, 'participio']];
     let ok = 0;
-    checks.forEach(([id, correct]) => {
+    checks.forEach(([id, correct, label]) => {
       const input = $('#' + id);
       const right = isCorrectAnswer(input.value, correct);
+      const mistakeId = `tenses-formas-${verb.infinitivo}-${label}`;
+      if (right) {
+        clearMistake(mistakeId);
+      } else {
+        recordMistake(mistakeId, { tipo: 'tenses-formas', contexto: 'Formas no personales', frase: `${forma} → ¿${label}?`, respuesta: correct });
+      }
       input.classList.add(right ? 'field-correct' : 'field-incorrect');
       input.disabled = true;
       if (!right) {
@@ -893,6 +943,53 @@ function viewTensesFormas(app) {
   }
 
   renderRound();
+}
+
+// ===================== Vista: Repaso de errores =====================
+const REPASO_GRUPOS = {
+  'grammar': { titulo: 'Gramática', icon: '✏️' },
+  'reading': { titulo: 'Lectura', icon: '📖' },
+  'tenses-conjugate': { titulo: 'Tiempos verbales: conjugación', icon: '🖊️' },
+  'tenses-frases': { titulo: 'Tiempos verbales: frases', icon: '📝' },
+  'tenses-formas': { titulo: 'Tiempos verbales: formas no personales', icon: '🔤' }
+};
+
+function viewRepaso(app) {
+  setTitle('Repaso de errores');
+  const mistakes = Object.values(getMistakes());
+  if (!mistakes.length) {
+    app.innerHTML = `
+      <div class="empty-state">
+        <div class="emoji">🎉</div>
+        <h3>¡Sin errores pendientes!</h3>
+        <p>Cuando falles una pregunta en cualquier práctica (gramática, lectura o tiempos verbales), aparecerá aquí para que la repases. En cuanto la aciertes, desaparece.</p>
+      </div>`;
+    return;
+  }
+  let html = `<p style="color:var(--text-muted);margin-bottom:16px;">Estas son las preguntas que has fallado alguna vez. Repásalas cuando quieras: en cuanto las aciertes, se quitan solas de la lista.</p>`;
+  Object.keys(REPASO_GRUPOS).forEach((tipo) => {
+    const items = mistakes.filter((m) => m.tipo === tipo);
+    if (!items.length) return;
+    const g = REPASO_GRUPOS[tipo];
+    html += `
+      <div class="card">
+        <div class="stat-row"><strong>${g.icon} ${escapeHtml(g.titulo)}</strong><span class="pill bad">${items.length}</span></div>
+        <a href="#/repaso/${tipo}" class="btn small" style="margin-top:10px;">Repasar</a>
+      </div>`;
+  });
+  app.innerHTML = html;
+}
+
+function viewRepasoTipo(app, tipo) {
+  const g = REPASO_GRUPOS[tipo];
+  const items = shuffle(Object.values(getMistakes()).filter((m) => m.tipo === tipo));
+  if (!g || !items.length) return navigate('/repaso');
+  setTitle(`Repaso: ${g.titulo}`);
+  if (tipo === 'grammar' || tipo === 'reading') {
+    runQuiz(app, { items, backRoute: '/repaso', kind: tipo });
+  } else {
+    runClozeQuiz(app, { items, backRoute: '/repaso' });
+  }
 }
 
 // ===================== Vista: Lectura =====================
@@ -932,7 +1029,7 @@ function viewReadingQuiz(app, idxStr) {
     $('#btnStartQ').addEventListener('click', () => {
       stage = 'quiz';
       runQuiz(app, {
-        items: text.preguntas,
+        items: withMistakeIds(text.preguntas, `reading-${i}`, 'reading', text.titulo),
         backRoute: '/reading',
         kind: 'reading',
         onFinish: (correct, total) => {
@@ -988,6 +1085,10 @@ function runQuiz(app, opts) {
     const q = items[idx];
     const correct = oi === q.correcta;
     if (correct) correctCount++;
+    if (q.mistakeId) {
+      if (correct) clearMistake(q.mistakeId);
+      else recordMistake(q.mistakeId, { tipo: q.mistakeTipo, contexto: q.mistakeContexto, pregunta: q.pregunta, opciones: q.opciones, correcta: q.correcta, explicacion: q.explicacion });
+    }
     $$('.quiz-opt').forEach((btn, i) => {
       if (i === q.correcta) btn.classList.add('correct');
       else if (i === oi) btn.classList.add('incorrect');
