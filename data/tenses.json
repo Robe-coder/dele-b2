@@ -1,0 +1,489 @@
+[
+  {
+    "id": "presente",
+    "titulo": "Presente",
+    "resumen": "Habla de acciones habituales, verdades generales y, en algunos casos, de futuro cercano.",
+    "tiempos": [
+      {
+        "id": "presente-indicativo",
+        "nombre": "Presente de indicativo",
+        "usos": [
+          "Acciones habituales o rutinarias: \"Trabajo todos los días.\"",
+          "Verdades generales o científicas: \"El agua hierve a 100 grados.\"",
+          "Acciones en el momento de hablar: \"Ahora mismo escucho la radio.\"",
+          "Futuro próximo o planificado: \"Mañana empiezo el nuevo trabajo.\"",
+          "Narrar hechos pasados con más viveza (presente histórico): \"En 1492 Colón llega a América.\""
+        ],
+        "formacion": "Raíz del verbo + terminaciones según su grupo (-ar, -er, -ir).",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["hablo", "como", "vivo"],
+            ["hablas", "comes", "vives"],
+            ["habla", "come", "vive"],
+            ["hablamos", "comemos", "vivimos"],
+            ["habláis", "coméis", "vivís"],
+            ["hablan", "comen", "viven"]
+          ]
+        },
+        "irregulares": [
+          "ser: soy, eres, es, somos, sois, son",
+          "estar: estoy, estás, está, estamos, estáis, están",
+          "tener: tengo, tienes, tiene, tenemos, tenéis, tienen",
+          "ir: voy, vas, va, vamos, vais, van",
+          "poder (o→ue): puedo, puedes, puede, podemos, podéis, pueden",
+          "querer (e→ie): quiero, quieres, quiere, queremos, queréis, quieren",
+          "pedir (e→i): pido, pides, pide, pedimos, pedís, piden",
+          "Verbos con \"yo\" irregular: hacer→hago, poner→pongo, salir→salgo, saber→sé, conocer→conozco, ver→veo"
+        ],
+        "ejemplos": [
+          "Michelle trabaja de auxiliar de dentista y estudia por las noches.",
+          "Si apruebo el B2, puedo empezar a homologar mi título."
+        ]
+      }
+    ],
+    "practicaFrases": [
+      { "frase": "Todos los días (yo) ___ (trabajar) en la clínica dental.", "respuesta": "trabajo" },
+      { "frase": "Michelle ___ (tener) muy poco tiempo libre entre semana.", "respuesta": "tiene" },
+      { "frase": "Nosotros ___ (vivir) en España desde hace tres años.", "respuesta": "vivimos" },
+      { "frase": "¿A qué hora ___ (ir) tú a la academia los martes?", "respuesta": "vas" },
+      { "frase": "Daniella nunca ___ (parar) quieta.", "respuesta": "para" },
+      { "frase": "Yo no ___ (saber) todavía todos los verbos irregulares.", "respuesta": "sé" },
+      { "frase": "¿Vosotros ___ (poder) venir a la fiesta del sábado?", "respuesta": "podéis" },
+      { "frase": "Ellos siempre ___ (decir) la verdad.", "respuesta": "dicen" }
+    ]
+  },
+  {
+    "id": "pasado",
+    "titulo": "Pasado",
+    "resumen": "Cuatro tiempos para narrar el pasado, cada uno con un matiz distinto: acabado y conectado con el presente, acabado y cerrado, habitual/descriptivo, o anterior a otro pasado.",
+    "tiempos": [
+      {
+        "id": "preterito-perfecto-compuesto",
+        "nombre": "Pretérito perfecto compuesto",
+        "usos": [
+          "Acciones pasadas conectadas con el presente o dentro de un periodo no terminado: \"Hoy he estudiado dos horas.\"",
+          "Experiencias de vida sin especificar cuándo: \"He estado en Filipinas varias veces.\"",
+          "Con marcadores como hoy, esta semana, este mes, ya, todavía no, alguna vez, nunca."
+        ],
+        "formacion": "Presente de \"haber\" + participio pasado (-ado / -ido).",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["he hablado", "he comido", "he vivido"],
+            ["has hablado", "has comido", "has vivido"],
+            ["ha hablado", "ha comido", "ha vivido"],
+            ["hemos hablado", "hemos comido", "hemos vivido"],
+            ["habéis hablado", "habéis comido", "habéis vivido"],
+            ["han hablado", "han comido", "han vivido"]
+          ]
+        },
+        "irregulares": [
+          "Participios irregulares (la forma de \"haber\" es siempre regular): abrir→abierto, decir→dicho, escribir→escrito, hacer→hecho, poner→puesto, romper→roto, ver→visto, volver→vuelto, morir→muerto, descubrir→descubierto"
+        ],
+        "ejemplos": [
+          "Esta semana he repasado todo el vocabulario del tema de sanidad.",
+          "¿Alguna vez has hecho un examen oficial de español?"
+        ]
+      },
+      {
+        "id": "preterito-indefinido",
+        "nombre": "Pretérito indefinido (perfecto simple)",
+        "usos": [
+          "Acciones acabadas en un momento concreto y cerrado del pasado: \"Ayer terminé el informe.\"",
+          "Series de hechos pasados que hacen avanzar una narración.",
+          "Con marcadores como ayer, anoche, el año pasado, en 2020, hace dos días."
+        ],
+        "formacion": "Raíz del verbo + terminaciones propias de este tiempo (distintas del presente).",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["hablé", "comí", "viví"],
+            ["hablaste", "comiste", "viviste"],
+            ["habló", "comió", "vivió"],
+            ["hablamos", "comimos", "vivimos"],
+            ["hablasteis", "comisteis", "vivisteis"],
+            ["hablaron", "comieron", "vivieron"]
+          ]
+        },
+        "irregulares": [
+          "ser / ir (misma forma para los dos): fui, fuiste, fue, fuimos, fuisteis, fueron",
+          "tener: tuve, tuviste, tuvo, tuvimos, tuvisteis, tuvieron",
+          "estar: estuve, estuviste, estuvo, estuvimos, estuvisteis, estuvieron",
+          "hacer: hice, hiciste, hizo, hicimos, hicisteis, hicieron",
+          "decir: dije, dijiste, dijo, dijimos, dijisteis, dijeron",
+          "poner: puse, pusiste, puso, pusimos, pusisteis, pusieron",
+          "querer: quise, quisiste, quiso, quisimos, quisisteis, quisieron",
+          "venir: vine, viniste, vino, vinimos, vinisteis, vinieron",
+          "dar: di, diste, dio, dimos, disteis, dieron"
+        ],
+        "ejemplos": [
+          "El año pasado Michelle empezó a estudiar para el DELE.",
+          "Fuimos a la biblioteca y estuvimos tres horas repasando gramática."
+        ]
+      },
+      {
+        "id": "preterito-imperfecto",
+        "nombre": "Pretérito imperfecto",
+        "usos": [
+          "Descripciones en pasado (personas, lugares, circunstancias): \"La casa era grande y tenía jardín.\"",
+          "Acciones habituales o repetidas en el pasado: \"Cuando era niña, jugaba en la calle.\"",
+          "Acción en desarrollo, interrumpida por otra (normalmente en indefinido): \"Cocinaba cuando sonó el teléfono.\"",
+          "Petición cortés o para \"suavizar\": \"Quería pedirte un favor.\""
+        ],
+        "formacion": "Raíz del verbo + terminaciones propias del imperfecto. Es el tiempo con menos irregulares de todo el español.",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["hablaba", "comía", "vivía"],
+            ["hablabas", "comías", "vivías"],
+            ["hablaba", "comía", "vivía"],
+            ["hablábamos", "comíamos", "vivíamos"],
+            ["hablabais", "comíais", "vivíais"],
+            ["hablaban", "comían", "vivían"]
+          ]
+        },
+        "irregulares": [
+          "Solo hay tres verbos irregulares en este tiempo:",
+          "ser: era, eras, era, éramos, erais, eran",
+          "ir: iba, ibas, iba, íbamos, ibais, iban",
+          "ver: veía, veías, veía, veíamos, veíais, veían"
+        ],
+        "ejemplos": [
+          "Cuando vivía en Filipinas, Michelle no hablaba nada de español.",
+          "Mientras Daniella dormía, ella aprovechaba para estudiar."
+        ]
+      },
+      {
+        "id": "preterito-pluscuamperfecto",
+        "nombre": "Pretérito pluscuamperfecto",
+        "usos": [
+          "Una acción pasada anterior a otra también pasada: \"Cuando llegué, ya había empezado la clase.\"",
+          "Para expresar algo que nunca había pasado hasta ese momento: \"Nunca había visto un examen tan difícil.\""
+        ],
+        "formacion": "Pretérito imperfecto de \"haber\" + participio pasado.",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["había hablado", "había comido", "había vivido"],
+            ["habías hablado", "habías comido", "habías vivido"],
+            ["había hablado", "había comido", "había vivido"],
+            ["habíamos hablado", "habíamos comido", "habíamos vivido"],
+            ["habíais hablado", "habíais comido", "habíais vivido"],
+            ["habían hablado", "habían comido", "habían vivido"]
+          ]
+        },
+        "irregulares": [
+          "\"Haber\" es siempre regular aquí; los irregulares son los mismos participios del pretérito perfecto compuesto (dicho, hecho, puesto, visto, escrito...)."
+        ],
+        "ejemplos": [
+          "Antes de mudarse a España, nunca había estudiado gramática española de forma tan intensiva.",
+          "Ya habíamos terminado el tema de subjuntivo cuando llegaron las vacaciones."
+        ]
+      }
+    ],
+    "practicaFrases": [
+      { "frase": "Esta semana (yo) ___ (estudiar) todos los días.", "respuesta": "he estudiado" },
+      { "frase": "El año pasado Michelle ___ (empezar) a preparar el DELE.", "respuesta": "empezó" },
+      { "frase": "Cuando era pequeña, ella ___ (vivir) en Filipinas.", "respuesta": "vivía" },
+      { "frase": "Cuando llegamos a casa, Daniella ya ___ (comer).", "respuesta": "había comido" },
+      { "frase": "Anoche nosotros ___ (ver) una película en español.", "respuesta": "vimos" },
+      { "frase": "¿Alguna vez (tú) ___ (hacer) un examen oficial?", "respuesta": "has hecho" },
+      { "frase": "Antes, los domingos (nosotros) ___ (ir) a pasear al parque.", "respuesta": "íbamos" },
+      { "frase": "Nunca antes (yo) ___ (estar) tan nerviosa como el día del examen.", "respuesta": "había estado" }
+    ]
+  },
+  {
+    "id": "futuro",
+    "titulo": "Futuro",
+    "resumen": "Expresa acciones posteriores al momento actual, y también probabilidad o suposición.",
+    "tiempos": [
+      {
+        "id": "futuro-simple",
+        "nombre": "Futuro simple",
+        "usos": [
+          "Acciones o planes futuros: \"El año que viene haré el examen.\"",
+          "Promesas y predicciones: \"Todo saldrá bien.\"",
+          "Probabilidad o suposición sobre el presente: \"Serán las tres, no sé.\""
+        ],
+        "formacion": "Infinitivo completo (-ar/-er/-ir) + terminaciones -é, -ás, -á, -emos, -éis, -án.",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["hablaré", "comeré", "viviré"],
+            ["hablarás", "comerás", "vivirás"],
+            ["hablará", "comerá", "vivirá"],
+            ["hablaremos", "comeremos", "viviremos"],
+            ["hablaréis", "comeréis", "viviréis"],
+            ["hablarán", "comerán", "vivirán"]
+          ]
+        },
+        "irregulares": [
+          "La irregularidad está en la raíz (nunca en las terminaciones):",
+          "tener→tendré, poner→pondré, salir→saldré, venir→vendré, valer→valdré",
+          "poder→podré, saber→sabré, haber→habré, caber→cabré",
+          "querer→querré",
+          "hacer→haré, decir→diré"
+        ],
+        "ejemplos": [
+          "El próximo mes Michelle hará el examen oficial.",
+          "Con este ritmo de estudio, aprobará sin problema."
+        ]
+      },
+      {
+        "id": "futuro-compuesto",
+        "nombre": "Futuro compuesto (futuro perfecto)",
+        "usos": [
+          "Una acción que estará terminada antes de un momento futuro: \"Para junio ya habré terminado de repasar todo el temario.\"",
+          "Probabilidad sobre algo pasado reciente: \"Habrá salido ya, no contesta al teléfono.\""
+        ],
+        "formacion": "Futuro simple de \"haber\" + participio pasado.",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["habré hablado", "habré comido", "habré vivido"],
+            ["habrás hablado", "habrás comido", "habrás vivido"],
+            ["habrá hablado", "habrá comido", "habrá vivido"],
+            ["habremos hablado", "habremos comido", "habremos vivido"],
+            ["habréis hablado", "habréis comido", "habréis vivido"],
+            ["habrán hablado", "habrán comido", "habrán vivido"]
+          ]
+        },
+        "irregulares": [
+          "\"Haber\" es siempre regular aquí; solo cambian los participios irregulares (dicho, hecho, puesto, visto, escrito...)."
+        ],
+        "ejemplos": [
+          "Cuando llegue el día del examen, habrá practicado cientos de preguntas.",
+          "Para entonces ya habremos celebrado el cumpleaños de Daniella."
+        ]
+      }
+    ],
+    "practicaFrases": [
+      { "frase": "El mes que viene Michelle ___ (hacer) el examen oficial.", "respuesta": "hará" },
+      { "frase": "¿A qué hora ___ (venir) vosotros mañana?", "respuesta": "vendréis" },
+      { "frase": "Si sigo así, ___ (poder) (yo) aprobar sin problema.", "respuesta": "podré" },
+      { "frase": "Para junio ya ___ (terminar) (yo) todo el temario.", "respuesta": "habré terminado" },
+      { "frase": "Nosotros ___ (tener) que estudiar más los fines de semana.", "respuesta": "tendremos" },
+      { "frase": "Cuando llegue el examen, ella ya ___ (practicar) cientos de preguntas.", "respuesta": "habrá practicado" },
+      { "frase": "¿Qué ___ (hacer) tú este verano?", "respuesta": "harás" },
+      { "frase": "Para entonces, nosotros ya ___ (celebrar) su cumpleaños.", "respuesta": "habremos celebrado" }
+    ]
+  },
+  {
+    "id": "condicional",
+    "titulo": "Condicional",
+    "resumen": "Expresa hipótesis, deseos, cortesía y la consecuencia de las oraciones condicionales de tipo 2 y 3.",
+    "tiempos": [
+      {
+        "id": "condicional-simple",
+        "nombre": "Condicional simple",
+        "usos": [
+          "Consecuencia de una condición hipotética (tipo 2): \"Si tuviera tiempo, viajaría más.\"",
+          "Deseos poco probables o corteses: \"Me gustaría aprobar a la primera.\"",
+          "Petición cortés: \"¿Podrías ayudarme con esto?\"",
+          "Consejo con \"yo que tú / en tu lugar\": \"Yo que tú, repasaría el subjuntivo.\"",
+          "Probabilidad sobre el pasado: \"Tendría unos 20 años cuando se mudó a España.\""
+        ],
+        "formacion": "Infinitivo completo (-ar/-er/-ir) + terminaciones -ía, -ías, -ía, -íamos, -íais, -ían (las mismas raíces irregulares que el futuro simple).",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["hablaría", "comería", "viviría"],
+            ["hablarías", "comerías", "vivirías"],
+            ["hablaría", "comería", "viviría"],
+            ["hablaríamos", "comeríamos", "viviríamos"],
+            ["hablaríais", "comeríais", "viviríais"],
+            ["hablarían", "comerían", "vivirían"]
+          ]
+        },
+        "irregulares": [
+          "tener→tendría, poner→pondría, salir→saldría, venir→vendría, valer→valdría",
+          "poder→podría, saber→sabría, haber→habría, caber→cabría",
+          "querer→querría",
+          "hacer→haría, decir→diría"
+        ],
+        "ejemplos": [
+          "Si aprobara el B2, podría homologar su título de enfermera.",
+          "¿Podrías corregirme este texto antes del examen?"
+        ]
+      },
+      {
+        "id": "condicional-compuesto",
+        "nombre": "Condicional compuesto",
+        "usos": [
+          "Consecuencia de una condición irreal en el pasado (tipo 3): \"Si hubiera estudiado más, habría aprobado.\"",
+          "Arrepentimiento o valoración de algo que no ocurrió: \"Yo habría hecho lo mismo en tu lugar.\""
+        ],
+        "formacion": "Condicional simple de \"haber\" + participio pasado.",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["habría hablado", "habría comido", "habría vivido"],
+            ["habrías hablado", "habrías comido", "habrías vivido"],
+            ["habría hablado", "habría comido", "habría vivido"],
+            ["habríamos hablado", "habríamos comido", "habríamos vivido"],
+            ["habríais hablado", "habríais comido", "habríais vivido"],
+            ["habrían hablado", "habrían comido", "habrían vivido"]
+          ]
+        },
+        "irregulares": [
+          "\"Haber\" es siempre regular aquí; solo cambian los participios irregulares (dicho, hecho, puesto, visto, escrito...)."
+        ],
+        "ejemplos": [
+          "De no haber sido por el trabajo, habría empezado a estudiar antes.",
+          "Sin tu ayuda, no lo habría conseguido."
+        ]
+      }
+    ],
+    "practicaFrases": [
+      { "frase": "Si tuviera más tiempo libre, (yo) ___ (estudiar) todos los días.", "respuesta": "estudiaría" },
+      { "frase": "¿___ (poder) tú ayudarme con este ejercicio?", "respuesta": "podrías" },
+      { "frase": "Yo que tú, ___ (repasar) el subjuntivo otra vez.", "respuesta": "repasaría" },
+      { "frase": "Si hubiera empezado antes, ya ___ (aprobar) (yo) el examen.", "respuesta": "habría aprobado" },
+      { "frase": "Con más práctica, ella ___ (hablar) con más seguridad.", "respuesta": "hablaría" },
+      { "frase": "Sin tu ayuda, no lo ___ (conseguir) (nosotros).", "respuesta": "habríamos conseguido" },
+      { "frase": "En tu lugar, yo no ___ (decir) nada.", "respuesta": "diría" },
+      { "frase": "De haber sabido la verdad, ellos no ___ (actuar) así.", "respuesta": "habrían actuado" }
+    ]
+  },
+  {
+    "id": "subjuntivo",
+    "titulo": "Subjuntivo",
+    "resumen": "El modo de la duda, el deseo, la valoración y lo hipotético. Es el bloque que más cuesta y el que más se examina en el B2: aparece tras verbos de influencia, sentimiento, duda, y en estructuras como \"para que\", \"cuando\" (futuro) u oraciones condicionales.",
+    "tiempos": [
+      {
+        "id": "presente-subjuntivo",
+        "nombre": "Presente de subjuntivo",
+        "usos": [
+          "Deseos: \"Espero que apruebes.\"",
+          "Influencia/petición: \"Te pido que me ayudes.\"",
+          "Duda o negación de certeza: \"No creo que sea tan difícil.\"",
+          "Valoración/sentimiento: \"Es una pena que no puedas venir.\"",
+          "Finalidad con \"para que\": \"Te lo explico para que lo entiendas.\"",
+          "Acción futura tras conectores temporales: \"Cuando llegues, avísame.\""
+        ],
+        "formacion": "Se toma la forma \"yo\" del presente de indicativo, se quita la -o y se añaden las terminaciones opuestas (los verbos en -ar usan terminaciones en -e; los verbos en -er/-ir usan terminaciones en -a).",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["hable", "coma", "viva"],
+            ["hables", "comas", "vivas"],
+            ["hable", "coma", "viva"],
+            ["hablemos", "comamos", "vivamos"],
+            ["habléis", "comáis", "viváis"],
+            ["hablen", "coman", "vivan"]
+          ]
+        },
+        "irregulares": [
+          "Los verbos con \"yo\" irregular en presente de indicativo mantienen esa irregularidad: tener→tenga, hacer→haga, poner→ponga, salir→salga, decir→diga, conocer→conozca, venir→venga",
+          "Verbos totalmente irregulares: ser→sea, seas, sea, seamos, seáis, sean",
+          "estar→esté, estés, esté, estemos, estéis, estén",
+          "ir→vaya, vayas, vaya, vayamos, vayáis, vayan",
+          "haber→haya, hayas, haya, hayamos, hayáis, hayan",
+          "saber→sepa, sepas, sepa, sepamos, sepáis, sepan",
+          "dar→dé, des, dé, demos, deis, den"
+        ],
+        "ejemplos": [
+          "Ojalá tengas suerte en el examen.",
+          "No pienso que sea imposible sacar el B2 estudiando un poco cada día."
+        ]
+      },
+      {
+        "id": "preterito-perfecto-subjuntivo",
+        "nombre": "Pretérito perfecto de subjuntivo",
+        "usos": [
+          "Duda, deseo o valoración sobre algo pasado pero conectado con el presente: \"Espero que hayas entendido bien la explicación.\"",
+          "Equivalente en subjuntivo del pretérito perfecto compuesto de indicativo."
+        ],
+        "formacion": "Presente de subjuntivo de \"haber\" + participio pasado.",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["haya hablado", "haya comido", "haya vivido"],
+            ["hayas hablado", "hayas comido", "hayas vivido"],
+            ["haya hablado", "haya comido", "haya vivido"],
+            ["hayamos hablado", "hayamos comido", "hayamos vivido"],
+            ["hayáis hablado", "hayáis comido", "hayáis vivido"],
+            ["hayan hablado", "hayan comido", "hayan vivido"]
+          ]
+        },
+        "irregulares": [
+          "\"Haber\" es siempre regular aquí; solo cambian los participios irregulares (dicho, hecho, puesto, visto, escrito...)."
+        ],
+        "ejemplos": [
+          "Me alegra que hayas terminado ya el tema de gramática.",
+          "No creo que haya sido tan grave el error."
+        ]
+      },
+      {
+        "id": "preterito-imperfecto-subjuntivo",
+        "nombre": "Pretérito imperfecto de subjuntivo",
+        "usos": [
+          "Igual que el presente de subjuntivo, pero para contextos en pasado o hipótesis: \"Esperaba que vinieras.\"",
+          "Oraciones condicionales de tipo 2: \"Si tuviera tiempo, estudiaría más.\"",
+          "Peticiones muy corteses: \"Quisiera pedirte un favor.\"",
+          "Tiene dos formas equivalentes (-ra / -se); la forma en -ra es más frecuente en el español hablado."
+        ],
+        "formacion": "Raíz de la 3ª persona del plural del pretérito indefinido (ellos hablaron → hablar-) + terminaciones -a/-ase (para -ar) o -iera/-iese (para -er/-ir).",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["hablara / hablase", "comiera / comiese", "viviera / viviese"],
+            ["hablaras / hablases", "comieras / comieses", "vivieras / vivieses"],
+            ["hablara / hablase", "comiera / comiese", "viviera / viviese"],
+            ["habláramos / hablásemos", "comiéramos / comiésemos", "viviéramos / viviésemos"],
+            ["hablarais / hablaseis", "comierais / comieseis", "vivierais / vivieseis"],
+            ["hablaran / hablasen", "comieran / comiesen", "vivieran / viviesen"]
+          ]
+        },
+        "irregulares": [
+          "Sigue exactamente la raíz irregular del pretérito indefinido:",
+          "ser / ir (fueron)→fuera/fuese", "tener (tuvieron)→tuviera/tuviese",
+          "hacer (hicieron)→hiciera/hiciese", "decir (dijeron)→dijera/dijese",
+          "poder (pudieron)→pudiera/pudiese", "estar (estuvieron)→estuviera/estuviese"
+        ],
+        "ejemplos": [
+          "Si estudiara un poco cada noche, llegaría muy preparada al examen.",
+          "Me hubiera gustado tener más tiempo, pero no me arrepiento del esfuerzo."
+        ]
+      },
+      {
+        "id": "preterito-pluscuamperfecto-subjuntivo",
+        "nombre": "Pretérito pluscuamperfecto de subjuntivo",
+        "usos": [
+          "Oraciones condicionales de tipo 3 (irreal en el pasado): \"Si hubiera sabido que era tan fácil, lo habría hecho antes.\"",
+          "Deseo o valoración imposible sobre el pasado: \"Ojalá hubiera empezado a estudiar antes.\""
+        ],
+        "formacion": "Pretérito imperfecto de subjuntivo de \"haber\" (hubiera/hubiese) + participio pasado.",
+        "tabla": {
+          "columnas": ["hablar", "comer", "vivir"],
+          "filas": [
+            ["hubiera/hubiese hablado", "hubiera/hubiese comido", "hubiera/hubiese vivido"],
+            ["hubieras/hubieses hablado", "hubieras/hubieses comido", "hubieras/hubieses vivido"],
+            ["hubiera/hubiese hablado", "hubiera/hubiese comido", "hubiera/hubiese vivido"],
+            ["hubiéramos/hubiésemos hablado", "hubiéramos/hubiésemos comido", "hubiéramos/hubiésemos vivido"],
+            ["hubierais/hubieseis hablado", "hubierais/hubieseis comido", "hubierais/hubieseis vivido"],
+            ["hubieran/hubiesen hablado", "hubieran/hubiesen comido", "hubieran/hubiesen vivido"]
+          ]
+        },
+        "irregulares": [
+          "\"Haber\" siempre sigue el mismo patrón (hubiera/hubiese...); solo cambian los participios irregulares (dicho, hecho, puesto, visto, escrito...)."
+        ],
+        "ejemplos": [
+          "Si hubiera tenido más tiempo libre, habría empezado el curso hace un año.",
+          "Ojalá lo hubiéramos sabido antes de organizar el viaje."
+        ]
+      }
+    ],
+    "practicaFrases": [
+      { "frase": "Espero que (tú) ___ (aprobar) el examen.", "respuesta": "apruebes" },
+      { "frase": "No creo que ___ (ser) tan difícil.", "respuesta": "sea" },
+      { "frase": "Me alegra que (tú) ya ___ (terminar) el tema de gramática.", "respuesta": "hayas terminado" },
+      { "frase": "Si (yo) ___ (tener) más tiempo, estudiaría cada noche.", "respuesta": "tuviera/tuviese" },
+      { "frase": "Si ___ (nosotros) (saber) que era tan fácil, lo habríamos hecho antes.", "respuesta": "hubiéramos sabido/hubiésemos sabido" },
+      { "frase": "Te sugiero que ___ (tú) (practicar) todos los días.", "respuesta": "practiques" },
+      { "frase": "Ojalá (yo) ___ (empezar) a estudiar antes.", "respuesta": "empezara/empezase" },
+      { "frase": "No pienso que ___ (ser) tan grave el error.", "respuesta": "haya sido" }
+    ]
+  }
+]

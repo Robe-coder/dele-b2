@@ -203,21 +203,25 @@ function updateStreakBadge() {
 }
 
 // ===================== Datos =====================
-const DATA = { vocab: [], vocabFlat: [], grammar: [], reading: [], writing: [], motivation: null };
+const DATA = { vocab: [], vocabFlat: [], grammar: [], reading: [], writing: [], motivation: null, tenses: [], verbs: [] };
 
 async function loadData() {
-  const [vocab, grammar, reading, writing, motivation] = await Promise.all([
+  const [vocab, grammar, reading, writing, motivation, tenses, verbs] = await Promise.all([
     fetch('data/vocab.json').then((r) => r.json()),
     fetch('data/grammar.json').then((r) => r.json()),
     fetch('data/reading.json').then((r) => r.json()),
     fetch('data/writing.json').then((r) => r.json()),
-    fetch('data/motivation.json').then((r) => r.json())
+    fetch('data/motivation.json').then((r) => r.json()),
+    fetch('data/tenses.json').then((r) => r.json()),
+    fetch('data/verbs.json').then((r) => r.json())
   ]);
   DATA.vocab = vocab;
   DATA.grammar = grammar;
   DATA.reading = reading;
   DATA.writing = writing;
   DATA.motivation = motivation;
+  DATA.tenses = tenses;
+  DATA.verbs = verbs;
   DATA.vocabFlat = [];
   vocab.forEach((tema, ti) => {
     tema.palabras.forEach((w, wi) => {
@@ -269,6 +273,87 @@ function reviewWord(id, knewIt) {
   saveSrsState(state);
 }
 
+// ===================== Motor de conjugación (tiempos verbales) =====================
+// Terminaciones para tiempos simples que se construyen sobre la raíz (infinitivo sin -ar/-er/-ir).
+const REGULAR_SUFFIXES = {
+  'presente-indicativo': { ar: ['o', 'as', 'a', 'amos', 'áis', 'an'], er: ['o', 'es', 'e', 'emos', 'éis', 'en'], ir: ['o', 'es', 'e', 'imos', 'ís', 'en'] },
+  'preterito-indefinido': { ar: ['é', 'aste', 'ó', 'amos', 'asteis', 'aron'], er: ['í', 'iste', 'ió', 'imos', 'isteis', 'ieron'], ir: ['í', 'iste', 'ió', 'imos', 'isteis', 'ieron'] },
+  'preterito-imperfecto': { ar: ['aba', 'abas', 'aba', 'ábamos', 'abais', 'aban'], er: ['ía', 'ías', 'ía', 'íamos', 'íais', 'ían'], ir: ['ía', 'ías', 'ía', 'íamos', 'íais', 'ían'] },
+  'presente-subjuntivo': { ar: ['e', 'es', 'e', 'emos', 'éis', 'en'], er: ['a', 'as', 'a', 'amos', 'áis', 'an'], ir: ['a', 'as', 'a', 'amos', 'áis', 'an'] }
+};
+// Futuro y condicional se construyen sobre el infinitivo completo (no sobre la raíz), igual en los tres grupos.
+const INFINITIVE_SUFFIXES = {
+  'futuro-simple': ['é', 'ás', 'á', 'emos', 'éis', 'án'],
+  'condicional-simple': ['ía', 'ías', 'ía', 'íamos', 'íais', 'ían']
+};
+// Pretérito imperfecto de subjuntivo (formas -ra / -se), sobre la raíz.
+const IMPERFECTO_SUBJ_SUFFIXES = {
+  ar: { ra: ['ara', 'aras', 'ara', 'áramos', 'arais', 'aran'], se: ['ase', 'ases', 'ase', 'ásemos', 'aseis', 'asen'] },
+  er: { ra: ['iera', 'ieras', 'iera', 'iéramos', 'ierais', 'ieran'], se: ['iese', 'ieses', 'iese', 'iésemos', 'ieseis', 'iesen'] },
+  ir: { ra: ['iera', 'ieras', 'iera', 'iéramos', 'ierais', 'ieran'], se: ['iese', 'ieses', 'iese', 'iésemos', 'ieseis', 'iesen'] }
+};
+const HABER_FORMS = {
+  'presente-indicativo': ['he', 'has', 'ha', 'hemos', 'habéis', 'han'],
+  'preterito-imperfecto': ['había', 'habías', 'había', 'habíamos', 'habíais', 'habían'],
+  'futuro-simple': ['habré', 'habrás', 'habrá', 'habremos', 'habréis', 'habrán'],
+  'condicional-simple': ['habría', 'habrías', 'habría', 'habríamos', 'habríais', 'habrían'],
+  'presente-subjuntivo': ['haya', 'hayas', 'haya', 'hayamos', 'hayáis', 'hayan'],
+  'preterito-imperfecto-subjuntivo': ['hubiera/hubiese', 'hubieras/hubieses', 'hubiera/hubiese', 'hubiéramos/hubiésemos', 'hubierais/hubieseis', 'hubieran/hubiesen']
+};
+// Cada tiempo compuesto usa la forma de "haber" del tiempo simple indicado + el participio.
+const COMPOUND_TENSES = {
+  'preterito-perfecto-compuesto': 'presente-indicativo',
+  'preterito-pluscuamperfecto': 'preterito-imperfecto',
+  'futuro-compuesto': 'futuro-simple',
+  'condicional-compuesto': 'condicional-simple',
+  'preterito-perfecto-subjuntivo': 'presente-subjuntivo',
+  'preterito-pluscuamperfecto-subjuntivo': 'preterito-imperfecto-subjuntivo'
+};
+const SIMPLE_TENSE_IDS = ['presente-indicativo', 'preterito-indefinido', 'preterito-imperfecto', 'futuro-simple', 'condicional-simple', 'presente-subjuntivo', 'preterito-imperfecto-subjuntivo'];
+
+function verbRoot(verb) { return verb.infinitivo.slice(0, -2); }
+
+function conjugarRegular(verb, tiempoId) {
+  const root = verbRoot(verb);
+  if (INFINITIVE_SUFFIXES[tiempoId]) {
+    return INFINITIVE_SUFFIXES[tiempoId].map((s) => verb.infinitivo + s);
+  }
+  if (tiempoId === 'preterito-imperfecto-subjuntivo') {
+    const { ra, se } = IMPERFECTO_SUBJ_SUFFIXES[verb.grupo];
+    return ra.map((s, i) => `${root}${s}/${root}${se[i]}`);
+  }
+  return REGULAR_SUFFIXES[tiempoId][verb.grupo].map((s) => root + s);
+}
+
+// Devuelve las 6 formas (yo/tú/él.../nosotros/vosotros/ellos...) de un verbo en un tiempo dado.
+// Formas alternativas (p. ej. -ra/-se) van separadas por "/".
+function conjugarVerbo(verb, tiempoId) {
+  if (COMPOUND_TENSES[tiempoId]) {
+    const auxForms = HABER_FORMS[COMPOUND_TENSES[tiempoId]];
+    return auxForms.map((f) => f.split('/').map((a) => `${a} ${verb.participio}`).join('/'));
+  }
+  if (verb.overrides && verb.overrides[tiempoId]) return verb.overrides[tiempoId];
+  return conjugarRegular(verb, tiempoId);
+}
+
+function findTiempo(tiempoId) {
+  for (const cat of DATA.tenses) {
+    const tiempo = cat.tiempos.find((t) => t.id === tiempoId);
+    if (tiempo) return { cat, tiempo };
+  }
+  return null;
+}
+
+function pickPracticeVerb() {
+  return pickRandom(DATA.verbs.filter((v) => !v.soloFormas));
+}
+
+// Comprueba una respuesta escrita contra una (o varias, separadas por "/") formas correctas.
+function isCorrectAnswer(given, correct) {
+  const accepted = correct.split('/').map((a) => a.trim().toLowerCase());
+  return given.trim() !== '' && accepted.includes(given.trim().toLowerCase());
+}
+
 // ===================== Router =====================
 function parseHash() {
   return (location.hash.slice(1) || '/').split('/').filter(Boolean);
@@ -299,6 +384,14 @@ async function render() {
   }
   if (segs[0] === 'grammar') {
     if (segs[1] === 'quiz') return viewGrammarQuiz(app, segs[2]);
+    if (segs[1] === 'tenses') {
+      if (segs[2] === 'conjugar') return viewTensesConjugate(app, segs[3]);
+      if (segs[2] === 'frases') return viewTensesFrases(app, segs[3]);
+      if (segs[2] === 'formas') return viewTensesFormas(app);
+      if (segs[2] && segs[3]) return viewTenseDetail(app, segs[2], segs[3]);
+      if (segs[2]) return viewTensesCategory(app, segs[2]);
+      return viewTensesCategories(app);
+    }
     return viewGrammarList(app);
   }
   if (segs[0] === 'reading') {
@@ -506,7 +599,16 @@ function viewVocabReview(app, themeIndex) {
 function viewGrammarList(app) {
   setTitle('Gramática');
   const gstats = getJSON('dele_grammar_stats', {});
-  let html = `<p style="color:var(--text-muted);margin-bottom:16px;">Elige un bloque para practicar. Repite los que tengan menos porcentaje.</p>`;
+  let html = `
+    <a href="#/grammar/tenses" class="list-item">
+      <div>
+        <div><strong>📘 Tiempos verbales</strong></div>
+        <div class="meta">Teoría por bloques (presente, pasado, futuro...) y práctica de conjugación</div>
+      </div>
+      <span class="chev">›</span>
+    </a>`;
+  html += `<div class="section-title">Bloques de gramática</div>`;
+  html += `<p style="color:var(--text-muted);margin-bottom:16px;">Elige un bloque para practicar. Repite los que tengan menos porcentaje.</p>`;
   DATA.grammar.forEach((cat) => {
     const s = gstats[cat.id];
     const pct = s ? Math.round((s.lastCorrect / s.lastTotal) * 100) : null;
@@ -541,6 +643,256 @@ function viewGrammarQuiz(app, catId) {
     },
     retryRoute: `/grammar/quiz/${cat.id}`
   });
+}
+
+// ===================== Vista: Tiempos verbales (teoría + práctica) =====================
+const PRONOMBRES = ['yo', 'tú', 'él/ella/usted', 'nosotros/as', 'vosotros/as', 'ellos/ellas/ustedes'];
+
+function viewTensesCategories(app) {
+  setTitle('Tiempos verbales');
+  let html = `<p style="color:var(--text-muted);margin-bottom:16px;">Primero repasa la teoría de cada bloque y luego practica con los ejercicios.</p>`;
+  DATA.tenses.forEach((cat) => {
+    html += `
+      <a href="#/grammar/tenses/${cat.id}" class="list-item">
+        <div>
+          <div><strong>${escapeHtml(cat.titulo)}</strong></div>
+          <div class="meta">${cat.tiempos.length} tiempo${cat.tiempos.length > 1 ? 's' : ''}</div>
+        </div>
+        <span class="chev">›</span>
+      </a>`;
+  });
+  html += `<div class="section-title">Práctica general</div>`;
+  html += `
+    <a href="#/grammar/tenses/formas" class="list-item">
+      <div>
+        <div><strong>🔤 Infinitivo, gerundio y participio</strong></div>
+        <div class="meta">Identifica las formas no personales de un verbo</div>
+      </div>
+      <span class="chev">›</span>
+    </a>`;
+  app.innerHTML = html;
+}
+
+function viewTensesCategory(app, catId) {
+  const cat = DATA.tenses.find((c) => c.id === catId);
+  if (!cat) return navigate('/grammar/tenses');
+  setTitle(cat.titulo);
+  let html = `<div class="card"><p style="margin:0;">${escapeHtml(cat.resumen)}</p></div>`;
+  html += `<div class="section-title">Teoría</div>`;
+  cat.tiempos.forEach((t) => {
+    html += `<a href="#/grammar/tenses/${cat.id}/${t.id}" class="list-item"><div><strong>${escapeHtml(t.nombre)}</strong></div><span class="chev">›</span></a>`;
+  });
+  if (cat.practicaFrases && cat.practicaFrases.length) {
+    html += `<div class="section-title">Práctica</div>`;
+    html += `<a href="#/grammar/tenses/frases/${cat.id}" class="btn secondary" style="margin-bottom:10px;">📝 Completa las frases</a>`;
+  }
+  html += `<a href="#/grammar/tenses" class="btn secondary" style="margin-top:6px;">Volver</a>`;
+  app.innerHTML = html;
+}
+
+function viewTenseDetail(app, catId, tiempoId) {
+  const cat = DATA.tenses.find((c) => c.id === catId);
+  const t = cat && cat.tiempos.find((x) => x.id === tiempoId);
+  if (!t) return navigate('/grammar/tenses');
+  setTitle(t.nombre);
+  let html = `<div class="section-title">Usos</div><div class="card"><ul style="margin:0;padding-left:20px;">${t.usos.map((u) => `<li style="margin-bottom:6px;">${escapeHtml(u)}</li>`).join('')}</ul></div>`;
+  html += `<div class="section-title">Formación</div><div class="card"><p style="margin:0;">${escapeHtml(t.formacion)}</p></div>`;
+  html += `<div class="section-title">Conjugación</div><div class="card"><div class="tense-table-wrap"><table class="tense-table"><thead><tr><th></th>${t.tabla.columnas.map((c) => `<th>${escapeHtml(c)}</th>`).join('')}</tr></thead><tbody>`;
+  t.tabla.filas.forEach((fila, i) => {
+    html += `<tr><th>${escapeHtml(PRONOMBRES[i])}</th>${fila.map((f) => `<td>${escapeHtml(f)}</td>`).join('')}</tr>`;
+  });
+  html += `</tbody></table></div></div>`;
+  if (t.irregulares && t.irregulares.length) {
+    html += `<details class="card"><summary style="cursor:pointer;font-weight:700;list-style:none;">⚠️ Irregulares frecuentes</summary><ul style="margin:10px 0 0;padding-left:20px;">${t.irregulares.map((x) => `<li style="margin-bottom:6px;">${escapeHtml(x)}</li>`).join('')}</ul></details>`;
+  }
+  html += `<div class="section-title">Ejemplos</div><div class="card">${t.ejemplos.map((e) => `<p style="font-style:italic;margin-bottom:6px;">"${escapeHtml(e)}"</p>`).join('')}</div>`;
+  if (SIMPLE_TENSE_IDS.includes(t.id)) {
+    html += `<a href="#/grammar/tenses/conjugar/${t.id}" class="btn" style="margin-top:6px;">🖊️ Practicar: conjugar este tiempo</a>`;
+  }
+  html += `<a href="#/grammar/tenses/${catId}" class="btn secondary" style="margin-top:10px;">Volver</a>`;
+  app.innerHTML = html;
+}
+
+function viewTensesConjugate(app, tiempoId) {
+  const found = findTiempo(tiempoId);
+  if (!found) return navigate('/grammar/tenses');
+  setTitle(`Conjugar: ${found.tiempo.nombre}`);
+  let verb = pickPracticeVerb();
+
+  function renderRound() {
+    app.innerHTML = `
+      <div class="card">
+        <p class="meta" style="color:var(--text-muted);margin-bottom:4px;">${escapeHtml(found.tiempo.nombre)}</p>
+        <h2 style="margin:0;">${escapeHtml(verb.infinitivo)}</h2>
+        <p class="meta" style="color:var(--text-muted);margin-top:6px;">Escribe las seis formas (los acentos cuentan).</p>
+      </div>
+      <div class="card">
+        ${PRONOMBRES.map((p, i) => `
+          <div class="conjugate-row">
+            <label for="cf${i}">${escapeHtml(p)}</label>
+            <input type="text" id="cf${i}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+          </div>`).join('')}
+      </div>
+      <button class="btn" id="btnCheck">Comprobar</button>
+      <div id="conjugateResult"></div>
+    `;
+    $('#btnCheck').addEventListener('click', checkRound);
+  }
+
+  function checkRound() {
+    const correct = conjugarVerbo(verb, tiempoId);
+    let ok = 0;
+    correct.forEach((c, i) => {
+      const input = $(`#cf${i}`);
+      const right = isCorrectAnswer(input.value, c);
+      input.classList.add(right ? 'field-correct' : 'field-incorrect');
+      input.disabled = true;
+      if (!right) {
+        const hint = document.createElement('div');
+        hint.className = 'field-hint';
+        hint.textContent = `✓ ${c.replace(/\//g, ' / ')}`;
+        input.insertAdjacentElement('afterend', hint);
+      }
+      if (right) ok++;
+    });
+    $('#btnCheck').remove();
+    $('#conjugateResult').innerHTML = `
+      <div class="card score-hero">
+        <div class="big">${ok}/${correct.length}</div>
+        <p>formas correctas de "${escapeHtml(verb.infinitivo)}"</p>
+      </div>
+      <button class="btn" id="btnNextVerb">Otro verbo</button>
+      <a href="#/grammar/tenses" class="btn secondary" style="margin-top:10px;">Terminar y volver</a>
+    `;
+    $('#btnNextVerb').addEventListener('click', () => { verb = pickPracticeVerb(); renderRound(); });
+    touchStreak();
+  }
+
+  renderRound();
+}
+
+// Componente genérico de ejercicios de respuesta escrita (rellenar el hueco).
+function runClozeQuiz(app, opts) {
+  const { items, backRoute } = opts;
+  let idx = 0;
+  let correctCount = 0;
+  let answered = false;
+
+  function renderQuestion() {
+    if (idx >= items.length) return renderFinish();
+    const q = items[idx];
+    answered = false;
+    app.innerHTML = `
+      <div class="pill" style="margin-bottom:10px;">Frase ${idx + 1} / ${items.length}</div>
+      <div class="card">
+        <div class="quiz-q">${escapeHtml(q.frase)}</div>
+        <input type="text" id="clozeInput" class="cloze-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Escribe la forma verbal...">
+        <div id="clozeExplain"></div>
+      </div>
+      <button class="btn" id="btnCloze">Comprobar</button>
+    `;
+    const input = $('#clozeInput');
+    input.focus();
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleClozeClick(); });
+    $('#btnCloze').addEventListener('click', handleClozeClick);
+  }
+
+  function handleClozeClick() {
+    if (answered) { idx++; renderQuestion(); return; }
+    answered = true;
+    const q = items[idx];
+    const input = $('#clozeInput');
+    const correct = isCorrectAnswer(input.value, q.respuesta);
+    if (correct) correctCount++;
+    input.classList.add(correct ? 'field-correct' : 'field-incorrect');
+    input.disabled = true;
+    $('#clozeExplain').innerHTML = `<div class="quiz-explain">${correct ? '✅ ¡Correcto!' : `❌ La respuesta correcta es: <strong>${escapeHtml(q.respuesta.replace(/\//g, ' / '))}</strong>`}</div>`;
+    $('#btnCloze').textContent = (idx === items.length - 1) ? 'Ver resultado' : 'Siguiente';
+  }
+
+  function renderFinish() {
+    const pct = Math.round((correctCount / items.length) * 100);
+    if (DATA.motivation) {
+      const pool = pct >= 75 ? DATA.motivation.sessionEnd.grammarHigh : DATA.motivation.sessionEnd.grammarLow;
+      const msg = pickRandom(pool);
+      if (msg) queueMotivation(msg);
+    }
+    app.innerHTML = `
+      <div class="card score-hero">
+        <div class="big">${pct}%</div>
+        <p>${correctCount} de ${items.length} respuestas correctas</p>
+      </div>
+      <a href="#${backRoute}" class="btn secondary">Volver</a>
+    `;
+    touchStreak();
+  }
+
+  renderQuestion();
+}
+
+function viewTensesFrases(app, catId) {
+  const cat = DATA.tenses.find((c) => c.id === catId);
+  if (!cat || !cat.practicaFrases) return navigate('/grammar/tenses');
+  setTitle(`Practicar: ${cat.titulo}`);
+  runClozeQuiz(app, { items: shuffle(cat.practicaFrases), backRoute: `/grammar/tenses/${catId}` });
+}
+
+function viewTensesFormas(app) {
+  setTitle('Infinitivo, gerundio y participio');
+  let verb, forma;
+
+  function pickPrompt() {
+    verb = pickRandom(DATA.verbs);
+    const tiempo = pickRandom(SIMPLE_TENSE_IDS);
+    const persona = Math.floor(Math.random() * 6);
+    forma = conjugarVerbo(verb, tiempo)[persona].split('/')[0];
+  }
+
+  function renderRound() {
+    pickPrompt();
+    app.innerHTML = `
+      <div class="card">
+        <p class="meta" style="color:var(--text-muted);margin-bottom:4px;">¿De qué verbo viene esta forma?</p>
+        <h2 style="margin:0;">${escapeHtml(forma)}</h2>
+      </div>
+      <div class="card">
+        <div class="conjugate-row"><label for="fInf">Infinitivo</label><input type="text" id="fInf" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+        <div class="conjugate-row"><label for="fGer">Gerundio</label><input type="text" id="fGer" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+        <div class="conjugate-row"><label for="fPart">Participio</label><input type="text" id="fPart" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      </div>
+      <button class="btn" id="btnCheckFormas">Comprobar</button>
+      <div id="formasResult"></div>
+    `;
+    $('#btnCheckFormas').addEventListener('click', checkFormas);
+  }
+
+  function checkFormas() {
+    const checks = [['fInf', verb.infinitivo], ['fGer', verb.gerundio], ['fPart', verb.participio]];
+    let ok = 0;
+    checks.forEach(([id, correct]) => {
+      const input = $('#' + id);
+      const right = isCorrectAnswer(input.value, correct);
+      input.classList.add(right ? 'field-correct' : 'field-incorrect');
+      input.disabled = true;
+      if (!right) {
+        const hint = document.createElement('div');
+        hint.className = 'field-hint';
+        hint.textContent = `✓ ${correct}`;
+        input.insertAdjacentElement('afterend', hint);
+      }
+      if (right) ok++;
+    });
+    $('#btnCheckFormas').remove();
+    $('#formasResult').innerHTML = `
+      <div class="card score-hero"><div class="big">${ok}/3</div><p>formas correctas</p></div>
+      <button class="btn" id="btnNextFormas">Otro verbo</button>
+      <a href="#/grammar/tenses" class="btn secondary" style="margin-top:10px;">Terminar y volver</a>
+    `;
+    $('#btnNextFormas').addEventListener('click', renderRound);
+    touchStreak();
+  }
+
+  renderRound();
 }
 
 // ===================== Vista: Lectura =====================

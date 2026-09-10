@@ -1,0 +1,189 @@
+[
+  { "infinitivo": "hablar", "grupo": "ar", "gerundio": "hablando", "participio": "hablado" },
+  { "infinitivo": "estudiar", "grupo": "ar", "gerundio": "estudiando", "participio": "estudiado" },
+  { "infinitivo": "comer", "grupo": "er", "gerundio": "comiendo", "participio": "comido" },
+  { "infinitivo": "aprender", "grupo": "er", "gerundio": "aprendiendo", "participio": "aprendido" },
+  { "infinitivo": "vivir", "grupo": "ir", "gerundio": "viviendo", "participio": "vivido" },
+  {
+    "infinitivo": "escribir", "grupo": "ir", "gerundio": "escribiendo", "participio": "escrito"
+  },
+  {
+    "infinitivo": "ser", "grupo": "er", "gerundio": "siendo", "participio": "sido",
+    "overrides": {
+      "presente-indicativo": ["soy", "eres", "es", "somos", "sois", "son"],
+      "preterito-indefinido": ["fui", "fuiste", "fue", "fuimos", "fuisteis", "fueron"],
+      "preterito-imperfecto": ["era", "eras", "era", "éramos", "erais", "eran"],
+      "presente-subjuntivo": ["sea", "seas", "sea", "seamos", "seáis", "sean"],
+      "preterito-imperfecto-subjuntivo": ["fuera/fuese", "fueras/fueses", "fuera/fuese", "fuéramos/fuésemos", "fuerais/fueseis", "fueran/fuesen"]
+    }
+  },
+  {
+    "infinitivo": "estar", "grupo": "ar", "gerundio": "estando", "participio": "estado",
+    "overrides": {
+      "presente-indicativo": ["estoy", "estás", "está", "estamos", "estáis", "están"],
+      "preterito-indefinido": ["estuve", "estuviste", "estuvo", "estuvimos", "estuvisteis", "estuvieron"],
+      "presente-subjuntivo": ["esté", "estés", "esté", "estemos", "estéis", "estén"],
+      "preterito-imperfecto-subjuntivo": ["estuviera/estuviese", "estuvieras/estuvieses", "estuviera/estuviese", "estuviéramos/estuviésemos", "estuvierais/estuvieseis", "estuvieran/estuviesen"]
+    }
+  },
+  {
+    "infinitivo": "tener", "grupo": "er", "gerundio": "teniendo", "participio": "tenido",
+    "overrides": {
+      "presente-indicativo": ["tengo", "tienes", "tiene", "tenemos", "tenéis", "tienen"],
+      "preterito-indefinido": ["tuve", "tuviste", "tuvo", "tuvimos", "tuvisteis", "tuvieron"],
+      "futuro-simple": ["tendré", "tendrás", "tendrá", "tendremos", "tendréis", "tendrán"],
+      "condicional-simple": ["tendría", "tendrías", "tendría", "tendríamos", "tendríais", "tendrían"],
+      "presente-subjuntivo": ["tenga", "tengas", "tenga", "tengamos", "tengáis", "tengan"],
+      "preterito-imperfecto-subjuntivo": ["tuviera/tuviese", "tuvieras/tuvieses", "tuviera/tuviese", "tuviéramos/tuviésemos", "tuvierais/tuvieseis", "tuvieran/tuviesen"]
+    }
+  },
+  {
+    "infinitivo": "ir", "grupo": "ir", "gerundio": "yendo", "participio": "ido",
+    "overrides": {
+      "presente-indicativo": ["voy", "vas", "va", "vamos", "vais", "van"],
+      "preterito-indefinido": ["fui", "fuiste", "fue", "fuimos", "fuisteis", "fueron"],
+      "preterito-imperfecto": ["iba", "ibas", "iba", "íbamos", "ibais", "iban"],
+      "presente-subjuntivo": ["vaya", "vayas", "vaya", "vayamos", "vayáis", "vayan"],
+      "preterito-imperfecto-subjuntivo": ["fuera/fuese", "fueras/fueses", "fuera/fuese", "fuéramos/fuésemos", "fuerais/fueseis", "fueran/fuesen"]
+    }
+  },
+  {
+    "infinitivo": "hacer", "grupo": "er", "gerundio": "haciendo", "participio": "hecho",
+    "overrides": {
+      "presente-indicativo": ["hago", "haces", "hace", "hacemos", "hacéis", "hacen"],
+      "preterito-indefinido": ["hice", "hiciste", "hizo", "hicimos", "hicisteis", "hicieron"],
+      "futuro-simple": ["haré", "harás", "hará", "haremos", "haréis", "harán"],
+      "condicional-simple": ["haría", "harías", "haría", "haríamos", "haríais", "harían"],
+      "presente-subjuntivo": ["haga", "hagas", "haga", "hagamos", "hagáis", "hagan"],
+      "preterito-imperfecto-subjuntivo": ["hiciera/hiciese", "hicieras/hicieses", "hiciera/hiciese", "hiciéramos/hiciésemos", "hicierais/hicieseis", "hicieran/hiciesen"]
+    }
+  },
+  {
+    "infinitivo": "poder", "grupo": "er", "gerundio": "pudiendo", "participio": "podido",
+    "overrides": {
+      "presente-indicativo": ["puedo", "puedes", "puede", "podemos", "podéis", "pueden"],
+      "preterito-indefinido": ["pude", "pudiste", "pudo", "pudimos", "pudisteis", "pudieron"],
+      "futuro-simple": ["podré", "podrás", "podrá", "podremos", "podréis", "podrán"],
+      "condicional-simple": ["podría", "podrías", "podría", "podríamos", "podríais", "podrían"],
+      "presente-subjuntivo": ["pueda", "puedas", "pueda", "podamos", "podáis", "puedan"],
+      "preterito-imperfecto-subjuntivo": ["pudiera/pudiese", "pudieras/pudieses", "pudiera/pudiese", "pudiéramos/pudiésemos", "pudierais/pudieseis", "pudieran/pudiesen"]
+    }
+  },
+  {
+    "infinitivo": "querer", "grupo": "er", "gerundio": "queriendo", "participio": "querido",
+    "overrides": {
+      "presente-indicativo": ["quiero", "quieres", "quiere", "queremos", "queréis", "quieren"],
+      "preterito-indefinido": ["quise", "quisiste", "quiso", "quisimos", "quisisteis", "quisieron"],
+      "futuro-simple": ["querré", "querrás", "querrá", "querremos", "querréis", "querrán"],
+      "condicional-simple": ["querría", "querrías", "querría", "querríamos", "querríais", "querrían"],
+      "presente-subjuntivo": ["quiera", "quieras", "quiera", "queramos", "queráis", "quieran"],
+      "preterito-imperfecto-subjuntivo": ["quisiera/quisiese", "quisieras/quisieses", "quisiera/quisiese", "quisiéramos/quisiésemos", "quisierais/quisieseis", "quisieran/quisiesen"]
+    }
+  },
+  {
+    "infinitivo": "decir", "grupo": "ir", "gerundio": "diciendo", "participio": "dicho",
+    "overrides": {
+      "presente-indicativo": ["digo", "dices", "dice", "decimos", "decís", "dicen"],
+      "preterito-indefinido": ["dije", "dijiste", "dijo", "dijimos", "dijisteis", "dijeron"],
+      "futuro-simple": ["diré", "dirás", "dirá", "diremos", "diréis", "dirán"],
+      "condicional-simple": ["diría", "dirías", "diría", "diríamos", "diríais", "dirían"],
+      "presente-subjuntivo": ["diga", "digas", "diga", "digamos", "digáis", "digan"],
+      "preterito-imperfecto-subjuntivo": ["dijera/dijese", "dijeras/dijeses", "dijera/dijese", "dijéramos/dijésemos", "dijerais/dijeseis", "dijeran/dijesen"]
+    }
+  },
+  {
+    "infinitivo": "poner", "grupo": "er", "gerundio": "poniendo", "participio": "puesto",
+    "overrides": {
+      "presente-indicativo": ["pongo", "pones", "pone", "ponemos", "ponéis", "ponen"],
+      "preterito-indefinido": ["puse", "pusiste", "puso", "pusimos", "pusisteis", "pusieron"],
+      "futuro-simple": ["pondré", "pondrás", "pondrá", "pondremos", "pondréis", "pondrán"],
+      "condicional-simple": ["pondría", "pondrías", "pondría", "pondríamos", "pondríais", "pondrían"],
+      "presente-subjuntivo": ["ponga", "pongas", "ponga", "pongamos", "pongáis", "pongan"],
+      "preterito-imperfecto-subjuntivo": ["pusiera/pusiese", "pusieras/pusieses", "pusiera/pusiese", "pusiéramos/pusiésemos", "pusierais/pusieseis", "pusieran/pusiesen"]
+    }
+  },
+  {
+    "infinitivo": "saber", "grupo": "er", "gerundio": "sabiendo", "participio": "sabido",
+    "overrides": {
+      "presente-indicativo": ["sé", "sabes", "sabe", "sabemos", "sabéis", "saben"],
+      "preterito-indefinido": ["supe", "supiste", "supo", "supimos", "supisteis", "supieron"],
+      "futuro-simple": ["sabré", "sabrás", "sabrá", "sabremos", "sabréis", "sabrán"],
+      "condicional-simple": ["sabría", "sabrías", "sabría", "sabríamos", "sabríais", "sabrían"],
+      "presente-subjuntivo": ["sepa", "sepas", "sepa", "sepamos", "sepáis", "sepan"],
+      "preterito-imperfecto-subjuntivo": ["supiera/supiese", "supieras/supieses", "supiera/supiese", "supiéramos/supiésemos", "supierais/supieseis", "supieran/supiesen"]
+    }
+  },
+  {
+    "infinitivo": "dar", "grupo": "ar", "gerundio": "dando", "participio": "dado",
+    "overrides": {
+      "presente-indicativo": ["doy", "das", "da", "damos", "dais", "dan"],
+      "preterito-indefinido": ["di", "diste", "dio", "dimos", "disteis", "dieron"],
+      "presente-subjuntivo": ["dé", "des", "dé", "demos", "deis", "den"],
+      "preterito-imperfecto-subjuntivo": ["diera/diese", "dieras/dieses", "diera/diese", "diéramos/diésemos", "dierais/dieseis", "dieran/diesen"]
+    }
+  },
+  {
+    "infinitivo": "venir", "grupo": "ir", "gerundio": "viniendo", "participio": "venido",
+    "overrides": {
+      "presente-indicativo": ["vengo", "vienes", "viene", "venimos", "venís", "vienen"],
+      "preterito-indefinido": ["vine", "viniste", "vino", "vinimos", "vinisteis", "vinieron"],
+      "futuro-simple": ["vendré", "vendrás", "vendrá", "vendremos", "vendréis", "vendrán"],
+      "condicional-simple": ["vendría", "vendrías", "vendría", "vendríamos", "vendríais", "vendrían"],
+      "presente-subjuntivo": ["venga", "vengas", "venga", "vengamos", "vengáis", "vengan"],
+      "preterito-imperfecto-subjuntivo": ["viniera/viniese", "vinieras/vinieses", "viniera/viniese", "viniéramos/viniésemos", "vinierais/vinieseis", "vinieran/viniesen"]
+    }
+  },
+  {
+    "infinitivo": "ver", "grupo": "er", "gerundio": "viendo", "participio": "visto",
+    "overrides": {
+      "presente-indicativo": ["veo", "ves", "ve", "vemos", "veis", "ven"],
+      "preterito-indefinido": ["vi", "viste", "vio", "vimos", "visteis", "vieron"],
+      "preterito-imperfecto": ["veía", "veías", "veía", "veíamos", "veíais", "veían"],
+      "presente-subjuntivo": ["vea", "veas", "vea", "veamos", "veáis", "vean"]
+    }
+  },
+  {
+    "infinitivo": "pensar", "grupo": "ar", "gerundio": "pensando", "participio": "pensado",
+    "overrides": {
+      "presente-indicativo": ["pienso", "piensas", "piensa", "pensamos", "pensáis", "piensan"],
+      "presente-subjuntivo": ["piense", "pienses", "piense", "pensemos", "penséis", "piensen"]
+    }
+  },
+  {
+    "infinitivo": "pedir", "grupo": "ir", "gerundio": "pidiendo", "participio": "pedido",
+    "overrides": {
+      "presente-indicativo": ["pido", "pides", "pide", "pedimos", "pedís", "piden"],
+      "preterito-indefinido": ["pedí", "pediste", "pidió", "pedimos", "pedisteis", "pidieron"],
+      "presente-subjuntivo": ["pida", "pidas", "pida", "pidamos", "pidáis", "pidan"],
+      "preterito-imperfecto-subjuntivo": ["pidiera/pidiese", "pidieras/pidieses", "pidiera/pidiese", "pidiéramos/pidiésemos", "pidierais/pidieseis", "pidieran/pidiesen"]
+    }
+  },
+  {
+    "infinitivo": "dormir", "grupo": "ir", "gerundio": "durmiendo", "participio": "dormido",
+    "overrides": {
+      "presente-indicativo": ["duermo", "duermes", "duerme", "dormimos", "dormís", "duermen"],
+      "preterito-indefinido": ["dormí", "dormiste", "durmió", "dormimos", "dormisteis", "durmieron"],
+      "presente-subjuntivo": ["duerma", "duermas", "duerma", "durmamos", "durmáis", "duerman"],
+      "preterito-imperfecto-subjuntivo": ["durmiera/durmiese", "durmieras/durmieses", "durmiera/durmiese", "durmiéramos/durmiésemos", "durmierais/durmieseis", "durmieran/durmiesen"]
+    }
+  },
+  {
+    "infinitivo": "volver", "grupo": "er", "gerundio": "volviendo", "participio": "vuelto",
+    "overrides": {
+      "presente-indicativo": ["vuelvo", "vuelves", "vuelve", "volvemos", "volvéis", "vuelven"],
+      "presente-subjuntivo": ["vuelva", "vuelvas", "vuelva", "volvamos", "volváis", "vuelvan"]
+    }
+  },
+  { "infinitivo": "abrir", "grupo": "ir", "gerundio": "abriendo", "participio": "abierto", "soloFormas": true },
+  { "infinitivo": "romper", "grupo": "er", "gerundio": "rompiendo", "participio": "roto", "soloFormas": true },
+  {
+    "infinitivo": "morir", "grupo": "ir", "gerundio": "muriendo", "participio": "muerto", "soloFormas": true,
+    "overrides": {
+      "presente-indicativo": ["muero", "mueres", "muere", "morimos", "morís", "mueren"],
+      "preterito-indefinido": ["morí", "moriste", "murió", "morimos", "moristeis", "murieron"],
+      "presente-subjuntivo": ["muera", "mueras", "muera", "muramos", "muráis", "mueran"],
+      "preterito-imperfecto-subjuntivo": ["muriera/muriese", "murieras/murieses", "muriera/muriese", "muriéramos/muriésemos", "murierais/murieseis", "murieran/muriesen"]
+    }
+  },
+  { "infinitivo": "descubrir", "grupo": "ir", "gerundio": "descubriendo", "participio": "descubierto", "soloFormas": true }
+]
