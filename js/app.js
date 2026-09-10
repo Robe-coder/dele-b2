@@ -102,6 +102,51 @@ function showCorrectionHelp() {
   overlay.querySelector('#correctionClose').addEventListener('click', close);
 }
 
+// ===================== Celebración (confeti + sonido) =====================
+const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function celebrate() {
+  playChime();
+  if (prefersReducedMotion) return;
+  const colors = ['#d9822b', '#2e8b57', '#3d6ea5', '#e69a4a', '#c0392b', '#f4c542'];
+  const container = document.createElement('div');
+  container.className = 'confetti-container';
+  for (let i = 0; i < 28; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + 'vw';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDelay = (Math.random() * 0.3) + 's';
+    piece.style.animationDuration = (1.4 + Math.random() * 0.9) + 's';
+    piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+    container.appendChild(piece);
+  }
+  document.body.appendChild(container);
+  setTimeout(() => container.remove(), 2500);
+}
+
+function playChime() {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    const ctx = new Ctx();
+    [523.25, 659.25, 783.99].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      const t0 = ctx.currentTime + i * 0.09;
+      gain.gain.setValueAtTime(0.0001, t0);
+      gain.gain.exponentialRampToValueAtTime(0.12, t0 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.35);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t0);
+      osc.stop(t0 + 0.4);
+    });
+    setTimeout(() => ctx.close(), 900);
+  } catch (e) { /* si el navegador bloquea audio, no pasa nada */ }
+}
+
 // ===================== Mensajes motivacionales =====================
 let lastGreetingIndex = -1;
 function pickGreeting() {
@@ -157,6 +202,7 @@ function checkWordsMasteredMilestone() {
   if (seen[seenKey]) return;
   seen[seenKey] = true;
   setJSON('dele_milestones_seen', seen);
+  celebrate();
   queueMotivation(milestones[key]);
 }
 
@@ -193,7 +239,7 @@ function touchStreak() {
   setJSON('dele_streak', s);
   updateStreakBadge();
   const milestones = DATA.motivation && DATA.motivation.streakMilestones;
-  if (milestones && milestones[String(s.count)]) queueMotivation(milestones[String(s.count)]);
+  if (milestones && milestones[String(s.count)]) { celebrate(); queueMotivation(milestones[String(s.count)]); }
   return s;
 }
 function updateStreakBadge() {
@@ -218,9 +264,25 @@ function clearMistake(id) {
   if (m[id]) { delete m[id]; saveMistakes(m); }
 }
 function mistakeCount() { return Object.keys(getMistakes()).length; }
+// Devuelve el "contexto" (bloque/tema) con más errores pendientes, o null si no hay ninguno.
+function weakestSpot() {
+  const mistakes = Object.values(getMistakes());
+  if (!mistakes.length) return null;
+  const counts = {};
+  mistakes.forEach((m) => { counts[m.contexto] = (counts[m.contexto] || 0) + 1; });
+  let best = null;
+  Object.keys(counts).forEach((k) => { if (!best || counts[k] > counts[best]) best = k; });
+  return best ? { contexto: best, count: counts[best] } : null;
+}
 // Añade a cada pregunta un id único (y su tipo/contexto) para poder registrarla si se falla.
 function withMistakeIds(items, prefix, tipo, contexto) {
   return items.map((it, i) => Object.assign({}, it, { mistakeId: `${prefix}-${i}`, mistakeTipo: tipo, mistakeContexto: contexto }));
+}
+// Adapta un error ya guardado (campos tipo/contexto) al formato que esperan los
+// componentes de quiz (mistakeTipo/mistakeContexto), para poder repasarlo y que,
+// si se vuelve a fallar, se guarde correctamente en vez de perder su categoría.
+function asReviewItem(m) {
+  return Object.assign({}, m, { mistakeTipo: m.tipo, mistakeContexto: m.contexto });
 }
 
 // ===================== Datos =====================
@@ -398,6 +460,7 @@ async function render() {
   window.scrollTo(0, 0);
 
   if (segs.length === 0) return viewHome(app);
+  if (segs[0] === 'express') return viewMiniSession(app);
   if (segs[0] === 'vocab') {
     if (segs[1] === 'review') return viewVocabReview(app, segs[2]);
     if (segs[1] === 'theme') return viewVocabTheme(app, segs[2]);
@@ -456,6 +519,12 @@ function viewHome(app) {
 
   const mistakes = mistakeCount();
 
+  const vocabPct = totalVocab ? (masteredVocab / totalVocab * 100) : 0;
+  const readingPct = DATA.reading.length ? (readDone / DATA.reading.length * 100) : 0;
+  const writingPct = DATA.writing.length ? (writeDone / DATA.writing.length * 100) : 0;
+  const nivelGlobal = Math.round((vocabPct + (avgGrammar || 0) + readingPct + writingPct) / 4);
+  const weak = weakestSpot();
+
   app.innerHTML = `
     <div class="card">
       <h2>${escapeHtml(pickGreeting())}</h2>
@@ -472,17 +541,26 @@ function viewHome(app) {
       </div>
     </div>
 
-    <a href="#/vocab/review" class="btn" style="margin-bottom:14px;">🗂️ Repasar vocabulario ${dueVocab ? `(${dueVocab})` : ''}</a>
+    <div class="card">
+      <div class="stat-row"><strong>🎯 Nivel de preparación</strong><span class="stat-num" style="font-size:20px;">${nivelGlobal}%</span></div>
+      <div class="progress-bar"><div style="width:${nivelGlobal}%"></div></div>
+      ${weak ? `<p class="meta" style="margin-top:8px;color:var(--text-muted);">📍 Esta semana fallas más en: <strong>${escapeHtml(weak.contexto)}</strong></p>` : ''}
+    </div>
+
+    <a href="#/express" class="btn" style="margin-bottom:14px;">⚡ Sesión de 5 minutos</a>
+    <a href="#/vocab/review" class="btn secondary" style="margin-bottom:14px;">🗂️ Repasar vocabulario ${dueVocab ? `(${dueVocab})` : ''}</a>
     ${mistakes ? `<a href="#/repaso" class="btn secondary" style="margin-bottom:14px;">🔁 Repaso de errores (${mistakes})</a>` : ''}
 
     <div class="section-title">Tu progreso</div>
     <div class="card">
-      <div class="stat-row"><span>Gramática</span><span>${avgGrammar !== null ? avgGrammar + '%' : 'sin empezar'}</span></div>
+      <div class="stat-row"><span>Vocabulario</span><span>${masteredVocab}/${totalVocab} palabras</span></div>
+      <div class="progress-bar"><div style="width:${vocabPct}%"></div></div>
+      <div class="stat-row" style="margin-top:12px;"><span>Gramática</span><span>${avgGrammar !== null ? avgGrammar + '%' : 'sin empezar'}</span></div>
       <div class="progress-bar"><div style="width:${avgGrammar || 0}%"></div></div>
       <div class="stat-row" style="margin-top:12px;"><span>Lectura</span><span>${readDone}/${DATA.reading.length} textos</span></div>
-      <div class="progress-bar"><div style="width:${DATA.reading.length ? (readDone / DATA.reading.length * 100) : 0}%"></div></div>
+      <div class="progress-bar"><div style="width:${readingPct}%"></div></div>
       <div class="stat-row" style="margin-top:12px;"><span>Escritura</span><span>${writeDone}/${DATA.writing.length} practicados</span></div>
-      <div class="progress-bar"><div style="width:${DATA.writing.length ? (writeDone / DATA.writing.length * 100) : 0}%"></div></div>
+      <div class="progress-bar"><div style="width:${writingPct}%"></div></div>
     </div>
 
     <div class="section-title">Accesos rápidos</div>
@@ -495,6 +573,178 @@ function viewHome(app) {
 
     ${!isStandaloneMode() ? `<div class="section-title">Instalación</div>${installHelpHtml()}` : ''}
   `;
+}
+
+// ===================== Vista: Sesión de 5 minutos =====================
+// Mezcla lo más pendiente de vocabulario, errores guardados y (si falta) preguntas del
+// bloque de gramática peor puntuado, para no tener que elegir sección con poco tiempo libre.
+function buildMiniSession() {
+  const items = [];
+
+  shuffle(getDueWords()).slice(0, 3).forEach((w) => items.push({ type: 'vocab', word: w }));
+
+  const usedIds = new Set();
+  shuffle(Object.values(getMistakes())).slice(0, 3).map(asReviewItem).forEach((m) => {
+    usedIds.add(m.mistakeId);
+    items.push({ type: m.opciones ? 'choice' : 'cloze', q: m });
+  });
+
+  if (items.length < 6) {
+    const gstats = getJSON('dele_grammar_stats', {});
+    const catsByWeakest = DATA.grammar.map((cat) => {
+      const s = gstats[cat.id];
+      return { cat, pct: s ? (s.lastCorrect / s.lastTotal) : -1 };
+    }).sort((a, b) => a.pct - b.pct);
+    outer:
+    for (const { cat } of catsByWeakest) {
+      const catItems = shuffle(withMistakeIds(cat.items, `grammar-${cat.id}`, 'grammar', cat.titulo));
+      for (const it of catItems) {
+        if (usedIds.has(it.mistakeId)) continue;
+        usedIds.add(it.mistakeId);
+        items.push({ type: 'choice', q: it });
+        if (items.length >= 6) break outer;
+      }
+    }
+  }
+
+  return shuffle(items);
+}
+
+function viewMiniSession(app) {
+  setTitle('Sesión de 5 minutos');
+  const queue = buildMiniSession();
+  if (!queue.length) {
+    app.innerHTML = `
+      <div class="empty-state">
+        <div class="emoji">✅</div>
+        <h3>¡Todo al día!</h3>
+        <p>No hay vocabulario pendiente ni errores guardados ahora mismo. Vuelve más tarde o practica una sección a fondo.</p>
+        <a href="#/" class="btn secondary" style="margin-top:10px;">Volver a Inicio</a>
+      </div>`;
+    return;
+  }
+  let idx = 0;
+  let correct = 0;
+
+  function renderItem() {
+    if (idx >= queue.length) return renderFinish();
+    const it = queue[idx];
+    if (it.type === 'vocab') return renderVocabItem(it.word);
+    if (it.type === 'choice') return renderChoiceItem(it.q);
+    return renderClozeItem(it.q);
+  }
+
+  function next() { idx++; renderItem(); }
+  function progressPill() { return `<div class="pill" style="margin-bottom:10px;">${idx + 1} / ${queue.length}</div>`; }
+
+  function renderVocabItem(w) {
+    app.innerHTML = `
+      ${progressPill()}
+      <div class="card flashcard" id="flashcard">
+        <div class="word">${escapeHtml(w.es)}</div>
+        <div class="hint">Toca la tarjeta para ver la definición</div>
+      </div>
+      <div class="review-actions" id="reviewActions" style="visibility:hidden;">
+        <button class="btn bad" id="btnDontKnow">😕 No lo sé</button>
+        <button class="btn good" id="btnKnow">😄 Lo sé</button>
+      </div>`;
+    $('#flashcard').addEventListener('click', () => {
+      $('#flashcard').innerHTML = `
+        <div class="word">${escapeHtml(w.es)}</div>
+        <div class="def">${escapeHtml(w.definicion)}</div>
+        <div class="example">"${escapeHtml(w.ejemplo)}"</div>
+        ${w.sinonimo ? `<div class="syn">sinónimo: ${escapeHtml(w.sinonimo)}</div>` : ''}`;
+      $('#reviewActions').style.visibility = 'visible';
+    });
+    $('#btnDontKnow').addEventListener('click', () => { reviewWord(w.id, false); next(); });
+    $('#btnKnow').addEventListener('click', () => { reviewWord(w.id, true); correct++; next(); });
+  }
+
+  function renderChoiceItem(q) {
+    app.innerHTML = `
+      ${progressPill()}
+      <div class="card">
+        <div class="quiz-q">${escapeHtml(q.pregunta)}</div>
+        <div id="opts"></div>
+        <div id="explainBox"></div>
+      </div>
+      <button class="btn" id="btnNext" disabled>Siguiente</button>`;
+    let answered = false;
+    const optsBox = $('#opts');
+    q.opciones.forEach((opt, oi) => {
+      const b = document.createElement('button');
+      b.className = 'quiz-opt';
+      b.textContent = opt;
+      b.addEventListener('click', () => {
+        if (answered) return;
+        answered = true;
+        const ok = oi === q.correcta;
+        if (ok) correct++;
+        if (q.mistakeId) {
+          if (ok) clearMistake(q.mistakeId);
+          else recordMistake(q.mistakeId, { tipo: q.mistakeTipo, contexto: q.mistakeContexto, pregunta: q.pregunta, opciones: q.opciones, correcta: q.correcta, explicacion: q.explicacion });
+        }
+        $$('.quiz-opt').forEach((btn, i) => {
+          if (i === q.correcta) btn.classList.add('correct');
+          else if (i === oi) btn.classList.add('incorrect');
+        });
+        if (q.explicacion) $('#explainBox').innerHTML = `<div class="quiz-explain">${ok ? '✅' : '❌'} ${escapeHtml(q.explicacion)}</div>`;
+        $('#btnNext').disabled = false;
+      });
+      optsBox.appendChild(b);
+    });
+    $('#btnNext').addEventListener('click', next);
+  }
+
+  function renderClozeItem(q) {
+    app.innerHTML = `
+      ${progressPill()}
+      <div class="card">
+        <div class="quiz-q">${escapeHtml(q.frase)}</div>
+        <input type="text" id="clozeInput" class="cloze-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Escribe la forma verbal...">
+        <div id="clozeExplain"></div>
+      </div>
+      <button class="btn" id="btnNext">Comprobar</button>`;
+    let answered = false;
+    const input = $('#clozeInput');
+    input.focus();
+    function check() {
+      if (answered) { next(); return; }
+      answered = true;
+      const ok = isCorrectAnswer(input.value, q.respuesta);
+      if (ok) correct++;
+      if (q.mistakeId) {
+        if (ok) clearMistake(q.mistakeId);
+        else recordMistake(q.mistakeId, { tipo: q.mistakeTipo, contexto: q.mistakeContexto, frase: q.frase, respuesta: q.respuesta });
+      }
+      input.classList.add(ok ? 'field-correct' : 'field-incorrect');
+      input.disabled = true;
+      $('#clozeExplain').innerHTML = `<div class="quiz-explain">${ok ? '✅ ¡Correcto!' : `❌ La respuesta correcta es: <strong>${escapeHtml(q.respuesta.replace(/\//g, ' / '))}</strong>`}</div>`;
+      $('#btnNext').textContent = (idx === queue.length - 1) ? 'Ver resultado' : 'Siguiente';
+    }
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
+    $('#btnNext').addEventListener('click', check);
+  }
+
+  function renderFinish() {
+    const pct = Math.round((correct / queue.length) * 100);
+    celebrate();
+    const msg = pickRandom(DATA.motivation && DATA.motivation.sessionEnd.vocab);
+    if (msg) queueMotivation(msg);
+    touchStreak();
+    app.innerHTML = `
+      <div class="card score-hero">
+        <div class="emoji" style="font-size:40px;">⚡</div>
+        <h2>¡Sesión completada!</h2>
+        <div class="big">${pct}%</div>
+        <p>${correct} de ${queue.length} bien en esta ronda rápida.</p>
+      </div>
+      <a href="#/express" class="btn" style="margin-bottom:10px;">Otra sesión de 5 minutos</a>
+      <a href="#/" class="btn secondary">Volver a Inicio</a>
+    `;
+  }
+
+  renderItem();
 }
 
 // ===================== Vista: Vocabulario (lista de temas) =====================
@@ -605,6 +855,7 @@ function viewVocabReview(app, themeIndex) {
       <a href="#/vocab" class="btn">Volver a vocabulario</a>
     `;
     if (stats.revisadas > 0) {
+      celebrate();
       const msg = pickRandom(DATA.motivation && DATA.motivation.sessionEnd.vocab);
       queueMotivation(msg);
     }
@@ -855,6 +1106,7 @@ function runClozeQuiz(app, opts) {
 
   function renderFinish() {
     const pct = Math.round((correctCount / items.length) * 100);
+    if (pct >= 75) celebrate();
     if (DATA.motivation) {
       const pool = pct >= 75 ? DATA.motivation.sessionEnd.grammarHigh : DATA.motivation.sessionEnd.grammarLow;
       const msg = pickRandom(pool);
@@ -982,7 +1234,7 @@ function viewRepaso(app) {
 
 function viewRepasoTipo(app, tipo) {
   const g = REPASO_GRUPOS[tipo];
-  const items = shuffle(Object.values(getMistakes()).filter((m) => m.tipo === tipo));
+  const items = shuffle(Object.values(getMistakes()).filter((m) => m.tipo === tipo).map(asReviewItem));
   if (!g || !items.length) return navigate('/repaso');
   setTitle(`Repaso: ${g.titulo}`);
   if (tipo === 'grammar' || tipo === 'reading') {
@@ -1103,6 +1355,7 @@ function runQuiz(app, opts) {
   function renderFinish() {
     if (typeof onFinish === 'function') onFinish(correctCount, items.length);
     const pct = Math.round((correctCount / items.length) * 100);
+    if (pct >= 75) celebrate();
     if (DATA.motivation && kind) {
       let pool = null;
       if (kind === 'grammar') pool = pct >= 75 ? DATA.motivation.sessionEnd.grammarHigh : DATA.motivation.sessionEnd.grammarLow;
@@ -1257,6 +1510,7 @@ function viewWritingPractice(app, idxStr) {
     done[i] = { done: true, lastDate: dateStr(), lastWords: wc };
     setJSON('dele_writing_done', done);
     touchStreak();
+    celebrate();
     const msg = pickRandom(DATA.motivation && DATA.motivation.sessionEnd.writing);
     if (msg) queueMotivation(msg);
     navigate('/writing');
